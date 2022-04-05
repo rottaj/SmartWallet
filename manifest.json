@@ -1,0 +1,23 @@
+{
+  "short_name": "SmartWallet",
+  "name": "Smart Wallet",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "permissions": [
+    "storage",
+    "tabs",
+    "activeTab",
+    "http://*/*", 
+    "https://*/*"
+  ],
+  "browser_action": {
+    "default_popup": "app/build/index.html",
+    "default_icon": {
+
+    }
+  },
+  "icons": {
+
+  },
+  "content_security_policy": "script-src 'self' 'sha256-fdAfMKZtCTRPKMRznGwonJHC++vCCrQS7XFnVrzSXAE=' 'sha256-YD8w9VLrdvqI5/tFVmpT+1337ly+e/JvPrkRxYZo/w4='; object-src 'self';"
+}
