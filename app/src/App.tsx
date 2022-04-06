@@ -12,6 +12,7 @@ const App = () => {
       height="800px"
       width="400px"
       textAlign="center"
+      borderRadius="20px"
     >
       <TopHeading/>
       <AccountPanel/>
