@@ -37,12 +37,12 @@ const AccountPanel = () => {
             >
                 <Text py="5px" px="10px" margin="0" fontSize="12px">Net Worth</Text>
                 <Box padding="0" margin="0" px="5px" pb="10px">
-                    <Text margin="0" fontSize="35px">$100,101.52</Text> 
+                    <Heading margin="0" fontSize="35px">$100,101.52</Heading> 
                     <Text margin="0" fontSize="10px" color="green" px="5px">+0.53% ($580.90)</Text>
                 </Box>
 
             </Box>
-            <HStack margin="0" spacing="100px">
+            <HStack margin="0" spacing="100px" pb="5px">
                 <Box>
                     <Text fontSize="10px">Tokens Worth</Text>
                     <Box margin="0">
