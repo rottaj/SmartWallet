@@ -3,6 +3,7 @@ import {
   Heading
 } from "@chakra-ui/react";
 import TopHeading from "./Components/TopHeading";
+import AccountPanel from "./Components/AccountPanel";
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
       textAlign="center"
     >
       <TopHeading/>
+      <AccountPanel/>
     </Box>
   );
 }

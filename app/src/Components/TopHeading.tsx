@@ -1,16 +1,13 @@
 import {
     Box,
-    Flex,
     HStack,
     Heading,
     Image,
-    Modal,
-    ModalBody,
-    ModalOverlay,
-    ModalContent,
+
     useDisclosure,
-} from "@chakra-ui/react"
-import tempImage from "../images/my_fucking_mayc.png"
+} from "@chakra-ui/react";
+import tempImage from "../images/my_fucking_mayc.png";
+import AccountModal from './AccountModal';
 
 const TopHeading = () => {
 
@@ -56,31 +53,5 @@ const TopHeading = () => {
     )
 }
 
-export default TopHeading
+export default TopHeading;
 
-type AccountModalProps = {
-    isOpen: any;
-    onOpen: any;
-    onClose: any;
-}
-
-const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
-    return (
-        <Modal
-            isOpen={isOpen}
-            onClose={onClose}
-
-            closeOnOverlayClick={true}
-        >
-            <ModalOverlay
-            />
-            <ModalContent>
-                <ModalBody>
-                    <Box>
-                        <Heading>Create Account</Heading> 
-                    </Box> 
-                </ModalBody>
-            </ModalContent>
-        </Modal>
-    )
-}
