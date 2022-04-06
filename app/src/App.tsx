@@ -4,6 +4,7 @@ import {
 } from "@chakra-ui/react";
 import TopHeading from "./Components/TopHeading";
 import AccountPanel from "./Components/AccountPanel";
+import PortfolioForecast from "./Components/PorfolioForecast";
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
     >
       <TopHeading/>
       <AccountPanel/>
+      <PortfolioForecast/>
     </Box>
   );
 }

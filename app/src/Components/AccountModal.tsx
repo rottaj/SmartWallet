@@ -1,3 +1,5 @@
+import { ethers } from 'ethers';
+import * as crypto from 'crypto';
 import { useState } from 'react';
 import {
     Box,
@@ -22,12 +24,9 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
     const [ isCreating, setIsCreating ]: any = useState(false);
 
     const createNewAccount = async () => {
-        /*
-        var id = crypto.randomBytes(32).toString('hex');
-        var privateKey = "0x"+id;
-        const wallet = new ethers.Wallet(privateKey);
-        console.log(wallet, privateKey)
-        */
+        const newWallet = ethers.Wallet.createRandom();
+        const wallet = new ethers.Wallet(newWallet.privateKey);
+        console.log(newWallet, wallet)
         onClose()
     }
 

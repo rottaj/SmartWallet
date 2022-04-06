@@ -6,8 +6,25 @@ import {
 
 const AccountPanel = () => {
     return (
-        <Box>
-
+        <Box
+            px="5px"
+            pt="50px"
+            pb="10px"
+            borderBottom="2px solid black"
+        >
+            <HStack
+                spacing="100px"
+            >
+                <Box>
+                    Connected
+                </Box>
+                <Box>
+                    Account 6
+                </Box>
+                <Box>
+                    Options
+                </Box>
+            </HStack>
         </Box>
     )
 }
