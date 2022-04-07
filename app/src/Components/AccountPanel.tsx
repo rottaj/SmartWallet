@@ -1,13 +1,15 @@
+import { useContext } from 'react';
 import {
     Box,
     HStack,
     Text,
     Heading
 } from "@chakra-ui/react"
-
+import { AccountContext } from "../contexts" 
 
 const AccountPanel = () => {
 
+    const { etherBalance }: any = useContext(AccountContext)
 
     return (
         <Box
@@ -48,7 +50,8 @@ const AccountPanel = () => {
                 <Box>
                     <Text fontSize="10px">Tokens Worth</Text>
                     <Box margin="0">
-                        <Text margin="0" fontSize="13px">25,532.21</Text>
+                        {/*<Text margin="0" fontSize="13px">25,532.21</Text>*/}
+                        <Text margin="0" fontSize="13px">{etherBalance}</Text>
                         <Text pl="2px" pt="1px" margin="0" fontSize="10px" color="red">-0.31% ($321.12)</Text>
                     </Box>
                 </Box>
