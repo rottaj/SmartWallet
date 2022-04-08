@@ -14,6 +14,7 @@ import {
     ModalContent
 } from "@chakra-ui/react";
 import { AccountContext } from '../contexts';
+import { FaEthereum } from 'react-icons/fa';
 
 type TransactionModalProps = {
     isOpen: any;
@@ -72,16 +73,37 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
                                     textAlign="left"
                                     pl="15px"
                                 >
-                                    <Text margin="0">ETH</Text>
-                                    <Text margin="0">Balance: {etherBalance}</Text>
+                                    <Flex>
+                                        <Box pt="3px">
+                                            <FaEthereum size="30px"/>
+                                        </Box>
+                                        <Box pl="3px">
+                                            <Text margin="0">ETH</Text>
+                                            <Text margin="0">Balance: {etherBalance}</Text>                                           
+                                        </Box>                                    
+                                    </Flex> 
+
                                 </Box>
                                 <Box
                                     mx="20%"
                                     borderRadius="10px"
                                     border="1px solid black"
                                 >
-                                    <Input placeholder="0"></Input>
+                                    <Flex>
+                                        <Input placeholder="0"></Input>
+                                        <Text>ETH</Text>
+                                    </Flex> 
                                 </Box>
+                            </Box>
+                            <Box margin="0" pt="130px">
+                                <HStack spacing="100px">
+                                    <Box border="1px solid black" width="160px" borderRadius="30px" onClick={() => onClose()}>
+                                        <Text>Cancel</Text>
+                                    </Box>
+                                    <Box border="1px solid black" width="160px" borderRadius="30px" backgroundColor="lightblue">
+                                        <Text>Next</Text>
+                                    </Box>
+                                </HStack>
                             </Box>
                         </Box>
                     :
@@ -91,6 +113,7 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
                                 <Text 
                                     marginLeft="auto"
                                     pr="20px" pt="7px"
+                                    onClick={() => onClose()}
                                 >Cancel</Text>
                             </Flex>
                             <Input
