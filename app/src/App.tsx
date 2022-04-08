@@ -8,6 +8,7 @@ import AccountPanel from "./Components/AccountPanel";
 import PortfolioForecast from "./Components/PorfolioForecast";
 import { getUserEthereumBalance } from "./utils/HandleUserTokens";
 import { AccountContext } from "./contexts";
+import TransactionPanel from "./Components/TransactionPanel";
 
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
 
 
 
+
   return (
     <AccountContext.Provider
       value={{
@@ -43,10 +45,10 @@ const App = () => {
       textAlign="center"
       borderRadius="20px"
     >
-      {console.log(process.env)}
       <TopHeading/>
       <AccountPanel/>
       <PortfolioForecast/>
+      <TransactionPanel/>
     </Box>
     </AccountContext.Provider>
   );
