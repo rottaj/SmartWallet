@@ -9,11 +9,14 @@ import PortfolioForecast from "./Components/PorfolioForecast";
 import { getUserEthereumBalance } from "./utils/HandleUserTokens";
 import { AccountContext } from "./contexts";
 import TransactionPanel from "./Components/TransactionPanel";
+import { ethers } from "ethers";
 
+const alchemy_url: any = process.env.REACT_APP_ALCHEMY_RPC;
 
 const App = () => {
     const [ isLoadingUser, setIsLoadingUser ]: any = useState();
     const [ isLoadingEtherBalance, setIsLoadingEtherBalance ]: any = useState()
+    const [ provider, setProvider ]: any = useState();
     const [ address, setAddress ]: any = useState()
     const [ networkStats, setNetworkStats ]: any = useState()
     const [ etherBalance, setEthereBalance ]: any = useState()
@@ -23,6 +26,10 @@ const App = () => {
       const mountData = async () => {
         const balance = await getUserEthereumBalance('0xB702DC679dCe8d27c77AC49A63B9A138B674929E')
         setEthereBalance(balance)
+
+        const provider = new ethers.providers.JsonRpcProvider(alchemy_url)
+        console.log("TESTING", provider)
+        setProvider(provider)
       }
 
       mountData();
@@ -36,6 +43,7 @@ const App = () => {
     <AccountContext.Provider
       value={{
         address,
+        provider,
         networkStats,
         etherBalance
       }}>

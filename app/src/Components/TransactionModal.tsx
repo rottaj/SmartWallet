@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { useState, useContext } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import {
     Box,
     Heading,
@@ -27,7 +27,8 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
     const [ recipientAddress, setRecipientAddress ]: any = useState()
     const [ txnIsOpen, setTxnIsOpen ]: any = useState();
     const [ sendingEther, setSendingEther ]: any = useState();
-    const { etherBalance }: any = useContext(AccountContext);
+    const [ currentGasPrice, setCurrentGasPrice ]: any = useState();
+    const { etherBalance, provider }: any = useContext(AccountContext);
 
     const checkValidEthereumAddress = (address: string) => {
         try {
@@ -36,6 +37,16 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
             } 
         } catch(error) {} 
     }
+
+
+    const getCurrentGasPrice = async () => {
+        if (provider) {
+            let gasPrice = await provider.getGasPrice();
+            return String(ethers.utils.formatUnits(gasPrice, "gwei"))
+        }
+    }
+
+
 
     return (
          <Modal
@@ -65,10 +76,22 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
                                         <Text fontSize="30px">{sendingEther}</Text>
                                     </Flex>
                                 </Box>
-                                <HStack>
+                                <HStack spacing="160px">
                                     <Box>
                                         <Heading fontSize="15px">Estimated gas price</Heading>
                                         <Text color="green">{"Likely in < 30 seconds"}</Text>
+                                    </Box>
+                                    <Box>
+                                        <Text>{() => getCurrentGasPrice()}</Text>
+                                        <Heading fontSize="15px">{currentGasPrice}</Heading>
+                                        <Heading fontSize="15px">Max Fee:</Heading>
+                                    </Box>
+                                </HStack>
+
+                                <HStack>
+                                    <Box alignItems="left">
+                                        <Heading fontSize="20px">Total</Heading>
+                                        <Text>Amount + gas fee</Text>
                                     </Box>
                                 </HStack>
 
