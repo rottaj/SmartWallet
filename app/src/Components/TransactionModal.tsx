@@ -25,6 +25,8 @@ type TransactionModalProps = {
 const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
 
     const [ recipientAddress, setRecipientAddress ]: any = useState()
+    const [ txnIsOpen, setTxnIsOpen ]: any = useState();
+    const [ sendingEther, setSendingEther ]: any = useState();
     const { etherBalance }: any = useContext(AccountContext);
 
     const checkValidEthereumAddress = (address: string) => {
@@ -52,60 +54,92 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
             >
                 <ModalBody>
                     {recipientAddress ? 
-                        <Box
-                            textAlign="center"
-                        >
-
-                            <Heading pt="60px">Send</Heading>
-                            <Box 
-                                mx="3%"
-                                border="1px solid black"
-                                borderRadius="10px"
-                            >
-                                <Text>{recipientAddress}</Text>
-                            </Box>
-
+                        <>
+                        {txnIsOpen ? 
                             <Box>
-                                <Box 
-                                    mx="20%"
-                                    borderRadius="10px"
-                                    border="1px solid black"
-                                    textAlign="left"
-                                    pl="15px"
-                                >
+                                <Box>
                                     <Flex>
-                                        <Box pt="3px">
-                                            <FaEthereum size="30px"/>
+                                        <Box pt="33px">
+                                            <FaEthereum fontSize="30px"/>
                                         </Box>
-                                        <Box pl="3px">
-                                            <Text margin="0">ETH</Text>
-                                            <Text margin="0">Balance: {etherBalance}</Text>                                           
-                                        </Box>                                    
-                                    </Flex> 
-
+                                        <Text fontSize="30px">{sendingEther}</Text>
+                                    </Flex>
                                 </Box>
-                                <Box
-                                    mx="20%"
-                                    borderRadius="10px"
-                                    border="1px solid black"
-                                >
-                                    <Flex>
-                                        <Input placeholder="0"></Input>
-                                        <Text>ETH</Text>
-                                    </Flex> 
-                                </Box>
-                            </Box>
-                            <Box margin="0" pt="130px">
-                                <HStack spacing="100px">
-                                    <Box border="1px solid black" width="160px" borderRadius="30px" onClick={() => onClose()}>
-                                        <Text>Cancel</Text>
-                                    </Box>
-                                    <Box border="1px solid black" width="160px" borderRadius="30px" backgroundColor="lightblue">
-                                        <Text>Next</Text>
+                                <HStack>
+                                    <Box>
+                                        <Heading fontSize="15px">Estimated gas price</Heading>
+                                        <Text color="green">{"Likely in < 30 seconds"}</Text>
                                     </Box>
                                 </HStack>
+
+                                <Box margin="0" pt="130px">
+                                    <HStack spacing="100px">
+                                        <Box border="1px solid black" width="160px" borderRadius="30px" onClick={() => onClose()}>
+                                            <Text>Reject</Text>
+                                        </Box>
+                                        <Box border="1px solid black" width="160px" borderRadius="30px" backgroundColor="lightblue" onClick={() => setTxnIsOpen(false)}>
+                                            <Text>Confirm</Text>
+                                        </Box>
+                                    </HStack>
+                                </Box>
                             </Box>
-                        </Box>
+                        :
+                            <Box
+                                textAlign="center"
+                            >
+
+                                <Heading pt="60px">Send</Heading>
+                                <Box 
+                                    mx="3%"
+                                    border="1px solid black"
+                                    borderRadius="10px"
+                                >
+                                    <Text>{recipientAddress}</Text>
+                                </Box>
+
+                                <Box>
+                                    <Box 
+                                        mx="20%"
+                                        borderRadius="10px"
+                                        border="1px solid black"
+                                        textAlign="left"
+                                        pl="15px"
+                                    >
+                                        <Flex>
+                                            <Box pt="3px">
+                                                <FaEthereum size="30px"/>
+                                            </Box>
+                                            <Box pl="3px">
+                                                <Text margin="0">ETH</Text>
+                                                <Text margin="0">Balance: {etherBalance}</Text>                                           
+                                            </Box>                                    
+                                        </Flex> 
+
+                                    </Box>
+                                    <Box
+                                        mx="20%"
+                                        borderRadius="10px"
+                                        border="1px solid black"
+                                    >
+                                        <Flex>
+                                            <Input placeholder="0" onChange={(e) => setSendingEther(e.target.value)}></Input>
+                                            <Text>ETH</Text>
+                                        </Flex> 
+                                    </Box>
+                                </Box>
+                                <Box margin="0" pt="130px">
+                                    <HStack spacing="100px">
+                                        <Box border="1px solid black" width="160px" borderRadius="30px" onClick={() => {onClose(); setRecipientAddress(undefined)}}>
+                                            <Text>Cancel</Text>
+                                        </Box>
+                                        <Box border="1px solid black" width="160px" borderRadius="30px" backgroundColor="lightblue" onClick={() => setTxnIsOpen(true)}>
+                                            <Text>Next</Text>
+                                        </Box>
+                                    </HStack>
+                                </Box>
+                            </Box>
+                        }
+                        </>
                     :
                         <Box>
                             <Flex pt="60px">
