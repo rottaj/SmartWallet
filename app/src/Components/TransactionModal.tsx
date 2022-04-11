@@ -40,10 +40,11 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
 
 
     const getCurrentGasPrice = async () => {
-        if (provider) {
-            let gasPrice = await provider.getGasPrice();
-            return String(ethers.utils.formatUnits(gasPrice, "gwei"))
-        }
+        let gasPrice = await provider.getGasPrice();
+        console.log(String(ethers.utils.formatUnits(gasPrice, "gwei")))
+        return (
+            String(ethers.utils.formatUnits(gasPrice, "gwei"))
+        );
     }
 
 
@@ -82,7 +83,7 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
                                         <Text color="green">{"Likely in < 30 seconds"}</Text>
                                     </Box>
                                     <Box>
-                                        <Text>{() => getCurrentGasPrice()}</Text>
+                                        <Text>{getCurrentGasPrice}</Text>
                                         <Heading fontSize="15px">{currentGasPrice}</Heading>
                                         <Heading fontSize="15px">Max Fee:</Heading>
                                     </Box>
