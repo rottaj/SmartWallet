@@ -28,7 +28,7 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
     const [ txnIsOpen, setTxnIsOpen ]: any = useState();
     const [ sendingEther, setSendingEther ]: any = useState();
     const [ currentGasPrice, setCurrentGasPrice ]: any = useState();
-    const { address, etherBalance, provider }: any = useContext(AccountContext);
+    const { address, etherBalance, wallet, provider }: any = useContext(AccountContext);
 
     const checkValidEthereumAddress = (address: string) => {
         try {
@@ -42,7 +42,6 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
     const getCurrentGasPrice = async () => {
         //let signer = provider.getSigner();
         const txn = createTransaction();
-        console.log(txn)
         let gasPrice = await provider.estimateGas(txn);
         //console.log(String(ethers.utils.formatUnits(gasPrice, "gwei")))
         setCurrentGasPrice(ethers.utils.formatUnits(gasPrice, "gwei"));
@@ -52,13 +51,22 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
         const txn = {
             from: address,
             to: recipientAddress,
-            //gasLimit: "21000",
-            //maxFeePerGas: "300",
+            //gasLimit: "21000", // need to update to currentGasPrice
+            //maxFeePerGas: "300", 
             //maxPriorityFeePerGas: "10",
-            nonce: "0",
-            value: sendingEther
+            //nonce: "0", // need to update to txnCount
+            value: ethers.utils.parseEther(sendingEther)
         }
         return txn;
+    }
+
+    const sendTransaction = async () => {
+        const txn = createTransaction();
+        console.log("WALLET", wallet)
+        console.log("TXN", txn)
+        await wallet.sendTransaction(txn).then((data: any) => {
+            console.log("SENT", data)
+        })
     }
 
     useEffect(() => {
@@ -83,7 +91,6 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
                 border="1px solid black"
             >
                 <ModalBody>
-                    {console.log(currentGasPrice)}
                     {recipientAddress ? 
                         <>
                         {txnIsOpen ? 
@@ -123,7 +130,7 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
                                         <Box border="1px solid black" width="160px" borderRadius="30px" onClick={() => {onClose(); setRecipientAddress(undefined); setSendingEther(undefined); setTxnIsOpen(false)}}>
                                             <Text>Reject</Text>
                                         </Box>
-                                        <Box border="1px solid black" width="160px" borderRadius="30px" backgroundColor="lightblue" >
+                                        <Box border="1px solid black" width="160px" borderRadius="30px" backgroundColor="lightblue" onClick={() => sendTransaction()}>
                                             <Text>Confirm</Text>
                                         </Box>
                                     </HStack>

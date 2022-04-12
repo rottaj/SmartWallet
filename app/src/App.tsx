@@ -14,6 +14,7 @@ import { ethers } from "ethers";
 import { getNetworkStats } from "./utils/HandleNetworkStats";
 
 const alchemy_url: any = process.env.REACT_APP_ALCHEMY_RPC;
+const priv_key: any = process.env.REACT_APP_PRIV_KEY;
 
 const App = () => {
     const [ isLoadingUser, setIsLoadingUser ]: any = useState();
@@ -33,7 +34,10 @@ const App = () => {
         const provider = new ethers.providers.JsonRpcProvider(alchemy_url)
         setProvider(provider)
         setAddress("0xB702DC679dCe8d27c77AC49A63B9A138B674929E") // just for testing
-        const wallet = handleWalletConnection(process.env.PRIV_KEY, provider);
+
+        console.log("FOO", priv_key, "BAR", provider)
+        const wallet = await handleWalletConnection(priv_key, provider);
+        setWallet(wallet)
         console.log("WALLET", wallet)
         setEthereBalance(balance)
         setNetworkStats(networkStat);
