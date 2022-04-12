@@ -18,6 +18,7 @@ const AccountPanel = () => {
             mb="10px"
             borderBottom="2px solid black"
         >
+            {console.log(networkStats)}
             <HStack
                 spacing="100px"
             >

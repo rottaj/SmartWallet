@@ -7,6 +7,7 @@ import TopHeading from "./Components/TopHeading";
 import AccountPanel from "./Components/AccountPanel";
 import PortfolioForecast from "./Components/PorfolioForecast";
 import { getUserEthereumBalance } from "./utils/HandleUserTokens";
+import { handleWalletConnection } from "./utils/HandleWalletConnection";
 import { AccountContext } from "./contexts";
 import TransactionPanel from "./Components/TransactionPanel";
 import { ethers } from "ethers";
@@ -18,22 +19,26 @@ const App = () => {
     const [ isLoadingUser, setIsLoadingUser ]: any = useState();
     const [ isLoadingEtherBalance, setIsLoadingEtherBalance ]: any = useState()
     const [ provider, setProvider ]: any = useState();
-    const [ address, setAddress ]: any = useState()
-    const [ networkStats, setNetworkStats ]: any = useState({})
-    const [ etherBalance, setEthereBalance ]: any = useState()
-
+    const [ address, setAddress ]: any = useState();
+    const [ wallet, setWallet ]: any = useState();
+    const [ networkStats, setNetworkStats ]: any = useState({});
+    const [ etherBalance, setEthereBalance ]: any = useState();
+  
     useEffect(() => { // refactor when adding chrome.storage
 
       const mountData = async () => {
         const balance = await getUserEthereumBalance('0xB702DC679dCe8d27c77AC49A63B9A138B674929E')
         const networkStat = await getNetworkStats();
-        setNetworkStats(networkStat);
-        console.log("NETWORK STATS", networkStats)
-        setEthereBalance(balance)
 
         const provider = new ethers.providers.JsonRpcProvider(alchemy_url)
-        console.log("TESTING", provider)
         setProvider(provider)
+        setAddress("0xB702DC679dCe8d27c77AC49A63B9A138B674929E") // just for testing
+        const wallet = handleWalletConnection(process.env.PRIV_KEY, provider);
+        console.log("WALLET", wallet)
+        setEthereBalance(balance)
+        setNetworkStats(networkStat);
+
+
       }
 
       mountData();
@@ -48,6 +53,7 @@ const App = () => {
       value={{
         address,
         provider,
+        wallet,
         networkStats,
         etherBalance
       }}>

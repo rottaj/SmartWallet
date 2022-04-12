@@ -28,7 +28,7 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
     const [ txnIsOpen, setTxnIsOpen ]: any = useState();
     const [ sendingEther, setSendingEther ]: any = useState();
     const [ currentGasPrice, setCurrentGasPrice ]: any = useState();
-    const { etherBalance, provider }: any = useContext(AccountContext);
+    const { address, etherBalance, provider }: any = useContext(AccountContext);
 
     const checkValidEthereumAddress = (address: string) => {
         try {
@@ -40,12 +40,30 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
 
 
     const getCurrentGasPrice = async () => {
-        let gasPrice = await provider.getGasPrice();
-        console.log(String(ethers.utils.formatUnits(gasPrice, "gwei")))
-        return (
-            String(ethers.utils.formatUnits(gasPrice, "gwei"))
-        );
+        //let signer = provider.getSigner();
+        const txn = createTransaction();
+        console.log(txn)
+        let gasPrice = await provider.estimateGas(txn);
+        //console.log(String(ethers.utils.formatUnits(gasPrice, "gwei")))
+        setCurrentGasPrice(ethers.utils.formatUnits(gasPrice, "gwei"));
     }
+
+    const createTransaction = () => {
+        const txn = {
+            from: address,
+            to: recipientAddress,
+            //gasLimit: "21000",
+            //maxFeePerGas: "300",
+            //maxPriorityFeePerGas: "10",
+            nonce: "0",
+            value: sendingEther
+        }
+        return txn;
+    }
+
+    useEffect(() => {
+        getCurrentGasPrice()
+    }, [txnIsOpen])
 
 
 
@@ -65,6 +83,7 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
                 border="1px solid black"
             >
                 <ModalBody>
+                    {console.log(currentGasPrice)}
                     {recipientAddress ? 
                         <>
                         {txnIsOpen ? 
@@ -83,25 +102,28 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
                                         <Text color="green">{"Likely in < 30 seconds"}</Text>
                                     </Box>
                                     <Box>
-                                        <Text>{getCurrentGasPrice}</Text>
+                                        <Text>{currentGasPrice}</Text>
                                         <Heading fontSize="15px">{currentGasPrice}</Heading>
-                                        <Heading fontSize="15px">Max Fee:</Heading>
+                                        <Heading fontSize="15px">Max Fee: {currentGasPrice}</Heading>
                                     </Box>
                                 </HStack>
 
-                                <HStack>
-                                    <Box alignItems="left">
+                                <HStack spacing="200px">
+                                    <Box >
                                         <Heading fontSize="20px">Total</Heading>
                                         <Text>Amount + gas fee</Text>
+                                    </Box>
+                                    <Box >
+                                        <Text>{parseFloat(String(parseFloat(sendingEther) + parseFloat(currentGasPrice)))}</Text>
                                     </Box>
                                 </HStack>
 
                                 <Box margin="0" pt="130px">
                                     <HStack spacing="100px">
-                                        <Box border="1px solid black" width="160px" borderRadius="30px" onClick={() => onClose()}>
+                                        <Box border="1px solid black" width="160px" borderRadius="30px" onClick={() => {onClose(); setRecipientAddress(undefined); setSendingEther(undefined); setTxnIsOpen(false)}}>
                                             <Text>Reject</Text>
                                         </Box>
-                                        <Box border="1px solid black" width="160px" borderRadius="30px" backgroundColor="lightblue" onClick={() => setTxnIsOpen(false)}>
+                                        <Box border="1px solid black" width="160px" borderRadius="30px" backgroundColor="lightblue" >
                                             <Text>Confirm</Text>
                                         </Box>
                                     </HStack>

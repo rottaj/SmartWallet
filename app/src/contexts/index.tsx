@@ -3,6 +3,7 @@ import { createContext } from 'react';
 type AccountContextType = {
     address: any;
     networkStats: any;
+    wallet: any;
     etherBalance: any;
     provider: any;
 }
