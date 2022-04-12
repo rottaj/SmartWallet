@@ -41,7 +41,7 @@ const AccountPanel = () => {
             >
                 <Text py="5px" px="10px" margin="0" fontSize="12px">Net Worth</Text>
                 <Box padding="0" margin="0" px="5px" pb="10px">
-                    <Heading margin="0" fontSize="35px">{parseFloat(String(parseFloat(etherBalance) * parseFloat(networkStats.ethusd))).toFixed(2)}</Heading> 
+                    <Heading margin="0" fontSize="35px">${parseFloat(String(parseFloat(etherBalance) * parseFloat(networkStats.ethusd))).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Heading> 
                     <Text margin="0" fontSize="10px" color="green" px="5px">+0.53% ($580.90)</Text>
                 </Box>
 

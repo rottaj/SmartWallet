@@ -63,7 +63,7 @@ const App = () => {
         etherBalance
       }}>
     <Box
-      height="800px"
+      height="1200px"
       width="400px"
       textAlign="center"
       borderRadius="20px"

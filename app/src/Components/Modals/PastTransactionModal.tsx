@@ -4,9 +4,8 @@ import {
     Box,
     Flex,
     Text,
-    Input,
+    Heading,
     HStack,
-    Button,
     Table,
     Tbody,
     Tr,
@@ -19,6 +18,8 @@ import {
 } from "@chakra-ui/react";
 import { AccountContext } from '../../contexts';
 import { FaEthereum } from 'react-icons/fa';
+import { BsFillArrowRightCircleFill } from 'react-icons/bs';
+import { AiFillCloseCircle } from 'react-icons/ai';
 
 type PastTransactionModalProps = {
     txn: any;
@@ -45,12 +46,75 @@ const PastTransactionModal = ({txn, isOpen, onOpen, onClose}: PastTransactionMod
                 border="1px solid black"
             >
                 <ModalBody>
+                    <Box px="10px">
+                        <HStack spacing="300px">
+                            <Box>
+                                <Heading>Send</Heading>
+                            </Box>
+                            <Box onClick={() => onClose()}>
+                                <AiFillCloseCircle size="40px"/>
+                            </Box>
+                        </HStack>
+                    </Box>
+                    <Box px="10px" pt="30px">
+                        <HStack spacing="180px">
+                            <Box>
+                                <Heading fontSize="18px">Status</Heading>
+                                {txn.isError == "0" ?
+                                    <Text color="green" fontSize="15px">Success</Text>
+                                :
+                                    <Text color="Red">Failed</Text>
+                                }
+                            </Box>
+                            <Box>
+                                <Text color="blue" fontSize="14px">View on block explorer</Text>
+                                <Text color="blue" fontSize="14px">Copy Transaction ID</Text>
+                            </Box>
+                        </HStack>
+                    </Box>
+                    <Box pt="20px">
+                        <HStack spacing="90px">
+                            <Box>
+                                <Heading>From</Heading>
+                                <Text>{txn.from.substr(0,9)}...</Text>
+                            </Box>
+                            <Box>
+                                <BsFillArrowRightCircleFill size="30px"/>
+                            </Box>
+                            <Box>
+                                <Heading>To</Heading>
+                                <Text>{txn.to.substr(0,9)}...</Text>
+                            </Box>
+                        </HStack>
+                    </Box>
                     <Box>
                         <Table>
+                            <Tbody>
                             <Tr>
                                 <Td>Nonce</Td>
                                 <Td>{txn.nonce}</Td>
                             </Tr>
+                            <Tr>
+                                <Td>Amount</Td>
+                                <Td>{ethers.utils.formatEther(txn.value)}</Td>
+                            </Tr>
+                            <Tr>
+                                <Td>Gas Limit</Td>
+                                <Td>{txn.gas}</Td>
+                            </Tr>
+                            <Tr>
+                                <Td>Gas Used</Td>
+                                <Td>{txn.gasUsed}</Td>
+                            </Tr>
+                            <Tr>
+                                <Td>Total gas Fee</Td>
+                                <Td>{ethers.utils.formatEther(txn.gasPrice)}</Td>
+                            </Tr>
+                            <Tr>
+                                <Td>Total</Td>
+                                <Td>{parseFloat(String(parseFloat(String(ethers.utils.formatEther(txn.value))) + parseFloat(String(ethers.utils.formatEther(txn.gasPrice)))))}</Td>
+                            </Tr>
+                            </Tbody>
                         </Table>
                     </Box>
                 </ModalBody>

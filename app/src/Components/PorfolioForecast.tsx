@@ -13,7 +13,8 @@ const PortfolioForecast = () => {
           id: "basic-bar"
         },
         xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+          //categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998]
+          //categories: ['March 7th','March 8th','March 9th','March 10th','March 11th',]
         }
       },
       series: [
