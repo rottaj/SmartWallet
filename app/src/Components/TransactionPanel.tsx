@@ -7,7 +7,7 @@ import {
     useDisclosure
 } from "@chakra-ui/react";
 import { FiSend } from 'react-icons/fi';
-import TransactionModal from './TransactionModal';
+import TransactionModal from './Modals/TransactionModal';
 
 const TransactionPanel = () => {
 

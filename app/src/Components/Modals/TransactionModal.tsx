@@ -13,7 +13,7 @@ import {
     ModalOverlay,
     ModalContent
 } from "@chakra-ui/react";
-import { AccountContext } from '../contexts';
+import { AccountContext } from '../../contexts';
 import { FaEthereum } from 'react-icons/fa';
 
 type TransactionModalProps = {

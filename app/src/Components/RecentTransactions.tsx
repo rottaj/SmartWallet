@@ -2,8 +2,10 @@ import { useState, useEffect, useContext } from "react"
 import { AccountContext } from "../contexts";
 import {
     Box,
-    Heading
+    Heading,
+    useDisclosure
 } from "@chakra-ui/react"
+import PastTransactionModal from "./Modals/PastTransactionModal";
 import { fetchRecentTransactions } from "../utils/etherscan/FetchRecentTransactions";
 
 const RecentTransactions = () => {
@@ -11,24 +13,30 @@ const RecentTransactions = () => {
     const [ recentTxns, setRecentTxns ]: any = useState([]);
     const { address }: any = useContext(AccountContext)
 
+
     useEffect(() => {
         const mountData = async () => {
             const txns = await fetchRecentTransactions(address);
             console.log(txns);
-            setRecentTxns(txns);
+            if (txns != "Error! Invalid address format") {
+                setRecentTxns(txns);
+            }
         }
         mountData();
-    }, [])
+    }, [address])
 
     return (
         <Box
-            px="20px"
+            pt="30px"
+            px="5px"
         >
             {recentTxns && 
                 <>
                 {recentTxns.map((txn: any) => {
                     return (
-                        <Transaction txnContent={txn}/>
+                        <>
+                        <Transaction txn={txn}/>
+                        </>
                     )
                 })}
                 </>
@@ -39,13 +47,20 @@ const RecentTransactions = () => {
 
 
 type TransactionProps = {
-    txnContent: any
+    txn: any
 }
 
-const Transaction = (props: TransactionProps) => {
+const Transaction = ({ txn } : TransactionProps) => {
+
+    const { isOpen, onOpen, onClose } = useDisclosure();
     return (
-        <Box >
-            <Heading fontSize="20px">{props.txnContent.hash}</Heading>
+        <Box
+            border="1px solid black"
+            my="3px"
+            onClick={onOpen}
+        >
+            <PastTransactionModal txn={txn} isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+            <Heading fontSize="20px">{txn.hash.substr(0, 28)}...</Heading>
         </Box>
     )
 }
