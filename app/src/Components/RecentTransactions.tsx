@@ -3,10 +3,15 @@ import { AccountContext } from "../contexts";
 import {
     Box,
     Heading,
+    Flex,
+    Text,
+    HStack,
     useDisclosure
 } from "@chakra-ui/react"
 import PastTransactionModal from "./Modals/PastTransactionModal";
 import { fetchRecentTransactions } from "../utils/etherscan/FetchRecentTransactions";
+import { FiSend, FiRepeat } from 'react-icons/fi';
+import { ethers } from "ethers";
 
 const RecentTransactions = () => {
 
@@ -56,11 +61,41 @@ const Transaction = ({ txn } : TransactionProps) => {
     return (
         <Box
             border="1px solid black"
-            my="3px"
+            my="5px"
+            py="10px"
+            px="5px"
             onClick={onOpen}
+            textAlign="left"
+            borderRadius="15px"
         >
             <PastTransactionModal txn={txn} isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
-            <Heading fontSize="20px">{txn.hash.substr(0, 28)}...</Heading>
+            {/*<Heading fontSize="20px">{txn.hash.substr(0, 28)}...</Heading> */}
+            <HStack spacing="200px">
+                <Flex>
+                    <Box pt="18px" pr="5px">
+                        {txn.to != "" ?
+                            <FiSend fontSize="30px"/>
+                        :
+                            <FiRepeat fontSize="30px"/>
+                        }
+                    </Box>
+                    <Box>
+                        {txn.to != "" ?
+                            <Text fontSize="20px">Send</Text> 
+                            :
+                            <Text fontSize="20px">Contract Interaction</Text>
+                        }
+                    </Box>
+                </Flex>
+                <Box>
+                    <Text>-{parseFloat(String(ethers.utils.formatEther(txn.value))).toFixed(2)} ETH</Text>
+                </Box>
+            </HStack>
+            {txn.to != "" ?
+                <Text>To: {txn.to.substr(0, 9)}...</Text>
+            :
+                <Text>To: {txn.contractAddress.substr(0, 9)}...</Text>
+            }
         </Box>
     )
 }
