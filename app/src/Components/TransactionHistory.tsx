@@ -12,8 +12,9 @@ import PastTransactionModal from "./Modals/PastTransactionModal";
 import { fetchRecentTransactions } from "../utils/etherscan/FetchRecentTransactions";
 import { FiSend, FiRepeat } from 'react-icons/fi';
 import { ethers } from "ethers";
+import { AiFillCodeSandboxCircle } from "react-icons/ai";
 
-const RecentTransactions = () => {
+const TransactionHistory = () => {
 
     const [ recentTxns, setRecentTxns ]: any = useState([]);
     const { address }: any = useContext(AccountContext)
@@ -57,6 +58,15 @@ type TransactionProps = {
 
 const Transaction = ({ txn } : TransactionProps) => {
 
+
+    const getDate = () => {
+        console.log(txn.timeStamp)
+        var date = new Date(txn.timeStamp * 1000);
+        console.log(date, String(date).length)
+        //return (date)
+        return String(date).substr(4, 6)
+    }
+
     const { isOpen, onOpen, onClose } = useDisclosure();
     return (
         <Box
@@ -96,8 +106,16 @@ const Transaction = ({ txn } : TransactionProps) => {
             :
                 <Text>To: {txn.contractAddress.substr(0, 9)}...</Text>
             }
+            <Flex margin="0">
+                <Text color="green">{getDate()} </Text>
+                {txn.to != "" || txn.contractAddress != ""?
+                <Text pl="10px">To: {txn.to.substr(0,8)}...</Text>
+                :
+                <Text pl="10px">From: {txn.from.substr(0,8)}...</Text>
+                }
+            </Flex>
         </Box>
     )
 }
 
-export default RecentTransactions;
+export default TransactionHistory;

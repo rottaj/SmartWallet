@@ -12,7 +12,7 @@ import { AccountContext } from "./contexts";
 import TransactionPanel from "./Components/TransactionPanel";
 import { ethers } from "ethers";
 import { getNetworkStats } from "./utils/HandleNetworkStats";
-import RecentTransactions from "./Components/RecentTransactions";
+import TransactionHistory from "./Components/TransactionHistory";
 
 const alchemy_url: any = process.env.REACT_APP_ALCHEMY_RPC;
 const priv_key: any = process.env.REACT_APP_PRIV_KEY;
@@ -72,7 +72,7 @@ const App = () => {
       <AccountPanel/>
       <PortfolioForecast/>
       <TransactionPanel/>
-      <RecentTransactions/>
+      <TransactionHistory/>
     </Box>
     </AccountContext.Provider>
   );

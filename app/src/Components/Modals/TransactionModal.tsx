@@ -15,12 +15,15 @@ import {
 } from "@chakra-ui/react";
 import { AccountContext } from '../../contexts';
 import { FaEthereum } from 'react-icons/fa';
+import { FiChrome } from 'react-icons/fi';
 
 type TransactionModalProps = {
     isOpen: any;
     onOpen: any;
     onClose: any;
 }
+
+declare let chrome: any;
 
 const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
 
@@ -66,7 +69,11 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
         console.log("TXN", txn)
         await wallet.sendTransaction(txn).then((data: any) => {
             console.log("SENT", data)
+            chrome.storage.set({txnHistory: data}, function(result: any) {
+                console.log("ADDED TXN to storage", result)
+            })
         })
+
     }
 
     useEffect(() => {
