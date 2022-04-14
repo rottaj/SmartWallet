@@ -69,6 +69,11 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
         console.log("TXN", txn)
         await wallet.sendTransaction(txn).then((data: any) => {
             console.log("SENT", data)
+            onClose();
+            setSendingEther(undefined);
+            setCurrentGasPrice(undefined);
+            setTxnIsOpen(false);
+            setRecipientAddress(undefined);
             chrome.storage.set({txnHistory: data}, function(result: any) {
                 console.log("ADDED TXN to storage", result)
             })
