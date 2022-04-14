@@ -1,5 +1,4 @@
 import { ethers } from 'ethers';
-import * as crypto from 'crypto';
 import { useState } from 'react';
 import {
     Box,
@@ -12,6 +11,7 @@ import {
     ModalOverlay,
     ModalContent
 } from "@chakra-ui/react";
+import { AiFillCloseCircle } from 'react-icons/ai';
 
 type AccountModalProps = {
     isOpen: any;
@@ -48,6 +48,9 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
                 <ModalBody>
                     {!isCreating ? 
                         <Box>
+                            <Box textAlign="right" onClick={() => onClose()} px="10px" pt="10px">
+                                <AiFillCloseCircle size="40px"/>
+                            </Box>
                             <Box
                                 border="1px solid black"
                                 borderRadius="20px"

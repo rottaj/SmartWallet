@@ -87,32 +87,32 @@ const PastTransactionModal = ({txn, isOpen, onOpen, onClose}: PastTransactionMod
                             </Box>
                         </HStack>
                     </Box>
-                    <Box>
+                    <Box pl="40px" pt="15px">
                         <Table>
                             <Tbody>
                             <Tr>
                                 <Td>Nonce</Td>
-                                <Td>{txn.nonce}</Td>
+                                <Td textAlign="right">{txn.nonce}</Td>
                             </Tr>
                             <Tr>
                                 <Td>Amount</Td>
-                                <Td>{ethers.utils.formatEther(txn.value)}</Td>
+                                <Td textAlign="right">{ethers.utils.formatEther(txn.value)}</Td>
                             </Tr>
                             <Tr>
                                 <Td>Gas Limit</Td>
-                                <Td>{txn.gas}</Td>
+                                <Td textAlign="right">{txn.gas}</Td>
                             </Tr>
                             <Tr>
                                 <Td>Gas Used</Td>
-                                <Td>{txn.gasUsed}</Td>
+                                <Td textAlign="right">{txn.gasUsed}</Td>
                             </Tr>
                             <Tr>
                                 <Td>Total gas Fee</Td>
-                                <Td>{ethers.utils.formatEther(txn.gasPrice)}</Td>
+                                <Td textAlign="right">{ethers.utils.formatEther(txn.gasPrice)}</Td>
                             </Tr>
                             <Tr>
-                                <Td>Total</Td>
-                                <Td>{parseFloat(String(parseFloat(String(ethers.utils.formatEther(txn.value))) + parseFloat(String(ethers.utils.formatEther(txn.gasPrice)))))}</Td>
+                                <Td pt="30px">Total</Td>
+                                <Td pt="30px" textAlign="right">{parseFloat(String(parseFloat(String(ethers.utils.formatEther(txn.value))) + parseFloat(String(ethers.utils.formatEther(txn.gasPrice)))))}</Td>
                             </Tr>
                             </Tbody>
                         </Table>

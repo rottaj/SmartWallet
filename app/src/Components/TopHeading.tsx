@@ -7,7 +7,7 @@ import {
     useDisclosure,
 } from "@chakra-ui/react";
 import tempImage from "../images/my_fucking_mayc.png";
-import AccountModal from './AccountModal';
+import AccountModal from './Modals/AccountModal';
 
 const TopHeading = () => {
 
