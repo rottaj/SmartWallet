@@ -5,6 +5,7 @@ import {
     Heading,
     Input,
     HStack,
+    Text,
     Button,
     Modal,
     ModalBody,
@@ -60,27 +61,29 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
                             </Box>
                         </Box> 
                         :
-                        <Box>
+                        <Box py="10px">
                             <Heading>Account Name</Heading>
-                            <Input placeholder="Account 1"></Input> 
-                            <HStack>
-                                <Button 
-                                    borderRadius="20px"
-                                    size="lg"
+                            <Input placeholder="Account 1" py="5px" px="5px"></Input> 
+                            <HStack spacing="100px" pt="15px">
+                                <Box
+                                    borderRadius="30px"
+                                    border="1px solid black"
+                                    width="160px"
                                     onClick={() => setIsCreating(false)}
                                 >
-                                    Cancel
-                                </Button>
-                                <Button 
+                                    <Text>Cancel</Text>
+                                </Box>
+                                <Box
                                     borderRadius="20px"
-                                    size="lg"
+                                    width="160px"
+                                    backgroundColor="lightblue"
                                     onClick={() => createNewAccount()}
                                 >
-                                    Create
-                                </Button>
+                                    <Text>Create</Text>
+                                </Box>
                             </HStack>
-
                         </Box>
+
                     }
                 </ModalBody>
             </ModalContent>

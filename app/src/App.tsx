@@ -17,6 +17,7 @@ import TransactionHistory from "./Components/TransactionHistory";
 const alchemy_url: any = process.env.REACT_APP_ALCHEMY_RPC;
 const priv_key: any = process.env.REACT_APP_PRIV_KEY;
 
+declare let chrome: any;
 const App = () => {
     const [ isLoadingUser, setIsLoadingUser ]: any = useState();
     const [ isLoadingEtherBalance, setIsLoadingEtherBalance ]: any = useState()
@@ -42,7 +43,7 @@ const App = () => {
         console.log("WALLET", wallet)
         setEthereBalance(balance)
         setNetworkStats(networkStat);
-
+        //chrome.storage.sync.set({"test": "test"})
 
       }
 
@@ -56,6 +57,7 @@ const App = () => {
   return (
     <AccountContext.Provider
       value={{
+        chrome,
         address,
         provider,
         wallet,

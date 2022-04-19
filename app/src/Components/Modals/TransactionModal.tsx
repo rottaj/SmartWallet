@@ -29,7 +29,7 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
     const [ txnIsOpen, setTxnIsOpen ]: any = useState();
     const [ sendingEther, setSendingEther ]: any = useState();
     const [ currentGasPrice, setCurrentGasPrice ]: any = useState();
-    const { address, etherBalance, wallet, provider }: any = useContext(AccountContext);
+    const { chrome, address, etherBalance, wallet, provider }: any = useContext(AccountContext);
 
     const checkValidEthereumAddress = (address: string) => {
         try {
@@ -72,15 +72,13 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
             setCurrentGasPrice(undefined);
             setTxnIsOpen(false);
             setRecipientAddress(undefined);
-            localStorage.set({txnHistory: data}, function(result: any) {
-                console.log("ADDED TXN to storage", result)
-            })
         })
 
     }
 
     useEffect(() => {
         getCurrentGasPrice()
+        console.log("TESTING STORAGE", chrome.storage)
     }, [txnIsOpen])
 
 
@@ -192,10 +190,19 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
                                 </Box>
                                 <Box margin="0" pt="130px">
                                     <HStack spacing="100px">
-                                        <Box border="1px solid black" width="160px" borderRadius="30px" onClick={() => {onClose(); setRecipientAddress(undefined)}}>
+                                        <Box 
+                                            border="1px solid black" 
+                                            width="160px" 
+                                            borderRadius="30px" 
+                                            onClick={() => {onClose(); setRecipientAddress(undefined)}}>
                                             <Text>Cancel</Text>
                                         </Box>
-                                        <Box border="1px solid black" width="160px" borderRadius="30px" backgroundColor="lightblue" onClick={() => setTxnIsOpen(true)}>
+                                        <Box 
+                                            border="1px solid black" 
+                                            width="160px" 
+                                            borderRadius="30px" 
+                                            backgroundColor="lightblue" 
+                                            onClick={() => setTxnIsOpen(true)}>
                                             <Text>Next</Text>
                                         </Box>
                                     </HStack>

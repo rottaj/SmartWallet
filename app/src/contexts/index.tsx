@@ -1,6 +1,7 @@
 import { createContext } from 'react';
 
 type AccountContextType = {
+    chrome: any;
     address: any;
     networkStats: any;
     wallet: any;
