@@ -23,8 +23,6 @@ type TransactionModalProps = {
     onClose: any;
 }
 
-declare let chrome: any;
-
 const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
 
     const [ recipientAddress, setRecipientAddress ]: any = useState()
@@ -74,7 +72,7 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
             setCurrentGasPrice(undefined);
             setTxnIsOpen(false);
             setRecipientAddress(undefined);
-            chrome.storage.set({txnHistory: data}, function(result: any) {
+            localStorage.set({txnHistory: data}, function(result: any) {
                 console.log("ADDED TXN to storage", result)
             })
         })

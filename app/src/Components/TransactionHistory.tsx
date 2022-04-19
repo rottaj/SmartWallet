@@ -90,6 +90,7 @@ const Transaction = ({ txn } : TransactionProps) => {
                             :
                                 <FiRepeat fontSize="30px"/>
                             }
+
                         </>
                         }
                     </Box>
