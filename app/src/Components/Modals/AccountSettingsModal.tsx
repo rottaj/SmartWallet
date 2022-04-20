@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { WalletContext } from '../../contexts';
-import { getUserEthereumBalance } from "../../utils/HandleUserTokens";
+import { generateQRCode} from "../../utils/GenerateQrCode";
 
 type AccountModalProps = {
     isOpen: any;
@@ -24,6 +24,10 @@ type AccountModalProps = {
 }
 
 const AccountSettingsModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
+
+    const { currentAccount, accounts }: any = useContext(WalletContext);
+
+
     return (
         <Modal
             isOpen={isOpen}

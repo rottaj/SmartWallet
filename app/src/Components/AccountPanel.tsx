@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import {
     Box,
     Flex,
@@ -8,6 +8,7 @@ import {
     useDisclosure
 } from "@chakra-ui/react"
 import AccountSettingsModal from './Modals/AccountSettingsModal';
+import { generateQRCode } from '../utils/GenerateQrCode';
 import { FiCopy, FiMoreVertical } from 'react-icons/fi';
 import { WalletContext } from "../contexts" 
 
@@ -15,6 +16,15 @@ const AccountPanel = () => {
 
     const { accounts, currentAccount, etherBalance, networkStats }: any = useContext(WalletContext)
     const { isOpen, onOpen, onClose } = useDisclosure();
+
+    useEffect(() => {
+        const mountData = async () => {
+            console.log("MOUNTDATA");
+            const data = await generateQRCode(accounts[currentAccount].address);
+            console.log("QR DATA", data);
+        }
+        mountData();
+    }, [currentAccount])
 
     return (
         <Box

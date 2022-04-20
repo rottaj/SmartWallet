@@ -29,10 +29,6 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
     const { chrome, accounts, setCurrentAccount, setEthereBalance }: any = useContext(WalletContext)
 
 
-    const getAccounts = () => {
-
-    }
-
 
     const createNewAccount = async (e: any) => {
         e.preventDefault();
@@ -56,11 +52,7 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
         setEthereBalance(balance)
     }
 
-    useEffect(() => {
-        getAccounts();
-    }, [])
-
-    return (
+     return (
         <Modal
             isOpen={isOpen}
             onClose={onClose}
