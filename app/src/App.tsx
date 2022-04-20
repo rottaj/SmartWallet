@@ -22,7 +22,7 @@ const App = () => {
     const [ isLoadingUser, setIsLoadingUser ]: any = useState();
     const [ isLoadingEtherBalance, setIsLoadingEtherBalance ]: any = useState()
     const [ provider, setProvider ]: any = useState();
-    const [ address, setAddress ]: any = useState();
+    const [ account, setAccount ]: any = useState();
     const [ wallet, setWallet ]: any = useState();
     const [ networkStats, setNetworkStats ]: any = useState({});
     const [ etherBalance, setEthereBalance ]: any = useState();
@@ -35,7 +35,7 @@ const App = () => {
 
         const provider = new ethers.providers.JsonRpcProvider(alchemy_url)
         setProvider(provider)
-        setAddress("0xB702DC679dCe8d27c77AC49A63B9A138B674929E") // just for testing
+        //setAddress("0xB702DC679dCe8d27c77AC49A63B9A138B674929E") // just for testing
 
         console.log("FOO", priv_key, "BAR", provider)
         const wallet = await handleWalletConnection(priv_key, provider);
@@ -43,9 +43,11 @@ const App = () => {
         console.log("WALLET", wallet)
         setEthereBalance(balance)
         setNetworkStats(networkStat);
-        //chrome.storage.sync.set({"test": "test"})
-        chrome.storage.sync.get("test", function(res: any) {
+        chrome.storage.sync.get(null, function(res: any) {
             console.log("GET ACCOUNT", res)
+            chrome.storage.sync.get(Object.keys(res)[0], function(account: any) {
+              setAccount(account);
+            })
         })
       }
 
@@ -60,7 +62,8 @@ const App = () => {
     <WalletContext.Provider
       value={{
         chrome,
-        address,
+        account,
+        setAccount,
         provider,
         wallet,
         networkStats,

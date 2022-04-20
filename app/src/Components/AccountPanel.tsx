@@ -9,7 +9,7 @@ import { WalletContext } from "../contexts"
 
 const AccountPanel = () => {
 
-    const { etherBalance, networkStats }: any = useContext(WalletContext)
+    const { account, etherBalance, networkStats }: any = useContext(WalletContext)
 
     return (
         <Box
@@ -25,7 +25,11 @@ const AccountPanel = () => {
                     Connected
                 </Box>
                 <Box>
-                    Account 6
+                    {account &&
+                        <>
+                        {Object.keys(account)}
+                        </>
+                    }
                 </Box>
                 <Box>
                     Options

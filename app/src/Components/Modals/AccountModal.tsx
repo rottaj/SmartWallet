@@ -14,6 +14,8 @@ import {
 } from "@chakra-ui/react";
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { WalletContext } from '../../contexts';
+import { BsChevronCompactRight } from 'react-icons/bs';
+import { useEffect } from 'react';
 
 type AccountModalProps = {
     isOpen: any;
@@ -24,7 +26,22 @@ type AccountModalProps = {
 const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
     
     const [ isCreating, setIsCreating ]: any = useState(false);
+    const [accounts, setAccounts]: any = useState([]);
     const { chrome, account, setAccount }: any = useContext(WalletContext)
+
+
+    const getAccounts = () => {
+        chrome.storage.sync.get(null, function(userAccounts: any) {
+            const accountKeys = Object.keys(userAccounts);
+            accountKeys.map((account: any) => {
+                chrome.storage.sync.get(account, function(res: any) {
+                    console.log("FOobar", res)
+                    setAccounts((accounts: any) => [res, ...accounts])
+                })
+            })
+        })
+    }
+
 
     const createNewAccount = async (e: any) => {
         e.preventDefault();
@@ -40,6 +57,10 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
             console.log("GET ACCOUNT", res.privateKey)
         })
     }
+
+    useEffect(() => {
+        getAccounts();
+    }, [])
 
     return (
         <Modal
@@ -61,6 +82,20 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
                         <Box>
                             <Box textAlign="right" onClick={() => onClose()} px="10px" pt="10px">
                                 <AiFillCloseCircle size="40px"/>
+                            </Box>
+                            <Box mx="5px">
+                                {accounts.map((account: any) => {
+                                    return (
+                                        <Box
+                                            border="1px solid black"
+                                            py="3px"
+                                            my="3px"
+                                            onClick={() => {setAccount(account); onClose();}}
+                                         >
+                                            <Text fontSize="20px">{Object.keys(account)}</Text>
+                                        </Box>
+                                    )
+                                })}
                             </Box>
                             <Box
                                 border="1px solid black"
