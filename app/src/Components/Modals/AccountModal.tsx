@@ -51,9 +51,8 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
     const handleAccountChange = async (account: any) => {
         console.log("HANDLE", account)
         setCurrentAccount(account);
-        const balance = await getUserEthereumBalance(account.address)
+        const balance = await getUserEthereumBalance(accounts[account].address)
         setEthereBalance(balance)
-        onClose();
     }
 
     useEffect(() => {
@@ -82,20 +81,18 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
                                 <AiFillCloseCircle size="40px"/>
                             </Box>
                             <Box mx="5px">
-                            {/*
-                                {accounts.map((account: any) => {
+                                {Object.keys(accounts).map((account, item: any) => {
                                     return (
                                         <Box
                                             border="1px solid black"
                                             py="3px"
                                             my="3px"
-                                            onClick={() => handleAccountChange(account)}
+                                            onClick={() => {handleAccountChange(account); onClose()}}
                                          >
-                                            <Text fontSize="20px">{Object.keys(account)}</Text>
+                                            <Text fontSize="20px">{account}</Text>
                                         </Box>
                                     )
                                 })}
-                            */}
                             </Box>
                             <Box
                                 border="1px solid black"

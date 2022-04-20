@@ -9,7 +9,7 @@ import { WalletContext } from "../contexts"
 
 const AccountPanel = () => {
 
-    const { currentAccount, etherBalance, networkStats }: any = useContext(WalletContext)
+    const { accounts, currentAccount, etherBalance, networkStats }: any = useContext(WalletContext)
 
     return (
         <Box
@@ -25,11 +25,12 @@ const AccountPanel = () => {
                     Connected
                 </Box>
                 <Box>
-                    {currentAccount &&
-                        <>
-                        {Object.keys(currentAccount)}
-                        </>
-                    }
+                    {console.log("TESTING CURRENT ACC", currentAccount, typeof(currentAccount))}
+                    {currentAccount !== undefined ?
+                        <Text>{currentAccount}</Text>
+                    :
+                        <Text>Loading</Text>
+                    } 
                 </Box>
                 <Box>
                     Options

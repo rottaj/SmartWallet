@@ -22,7 +22,7 @@ const App = () => {
     const [ isLoadingUser, setIsLoadingUser ]: any = useState();
     const [ isLoadingEtherBalance, setIsLoadingEtherBalance ]: any = useState()
     const [ provider, setProvider ]: any = useState();
-    const [ accounts, setAccounts ]: any = useState();
+    const [ accounts, setAccounts ]: any = useState({});
     const [ currentAccount, setCurrentAccount ]: any = useState();
     const [ wallet, setWallet ]: any = useState();
     const [ networkStats, setNetworkStats ]: any = useState({});
@@ -56,8 +56,8 @@ const App = () => {
             })
             */
             chrome.storage.sync.get(res[Object.keys(res)[0]], async function(firstAccount: any) {
-              console.log("TESTING FIRST ACCOUNT", firstAccount)
-              setCurrentAccount(firstAccount);
+              console.log("TESTING FIRST ACCOUNT", Object.keys(res)[0])
+              setCurrentAccount(Object.keys(res)[0]);
               const balance = await getUserEthereumBalance(firstAccount.address)
               setEthereBalance(balance)
             })
