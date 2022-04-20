@@ -2,6 +2,7 @@ import { ethers } from 'ethers';
 import { useState, useContext, useEffect } from 'react';
 import {
     Box,
+    Flex,
     Heading,
     Input,
     HStack,
@@ -38,10 +39,10 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
         console.log("TESTING TARGET", e)
         const newWallet = ethers.Wallet.createRandom();
         const account = new ethers.Wallet(newWallet.privateKey);
-        console.log(newWallet, account)
+        console.log("NEW ACCOUNT", account)
         //onClose()
         chrome.storage.sync.set({[`${e.target[0].value}`]: account}, function() {
-            console.log("ACCOUNT CREATED", e.target[0].value, account)
+            console.log("ACCOUNT CREATED", e.target[0].value, account, Object.getOwnPropertyNames(account))
         })
         chrome.storage.sync.get(e.target[0].value, function(res: any) {
             console.log("GET ACCOUNT", res.privateKey)
@@ -90,6 +91,7 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
                                             onClick={() => {handleAccountChange(account); onClose()}}
                                          >
                                             <Text fontSize="20px">{account}</Text>
+
                                         </Box>
                                     )
                                 })}

@@ -1,15 +1,20 @@
 import { useContext } from 'react';
 import {
     Box,
+    Flex,
     HStack,
     Text,
-    Heading
+    Heading,
+    useDisclosure
 } from "@chakra-ui/react"
+import AccountSettingsModal from './Modals/AccountSettingsModal';
+import { FiCopy, FiMoreVertical } from 'react-icons/fi';
 import { WalletContext } from "../contexts" 
 
 const AccountPanel = () => {
 
     const { accounts, currentAccount, etherBalance, networkStats }: any = useContext(WalletContext)
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     return (
         <Box
@@ -18,6 +23,7 @@ const AccountPanel = () => {
             mb="10px"
             borderBottom="2px solid black"
         >
+            <AccountSettingsModal isOpen={isOpen} onOpen={onOpen} onClose={onClose}/>
             <HStack
                 spacing="100px"
             >
@@ -27,13 +33,21 @@ const AccountPanel = () => {
                 <Box>
                     {console.log("TESTING CURRENT ACC", currentAccount, typeof(currentAccount))}
                     {currentAccount !== undefined ?
-                        <Text>{currentAccount}</Text>
+                        <Box>
+                            <Text>{currentAccount}</Text>
+                            <Flex>
+                                <Text>{accounts[currentAccount].address.substr(0, 8)}...</Text>
+                                <Box margin='0' pt="5px">
+                                    <FiCopy/>
+                                </Box>
+                            </Flex>
+                        </Box>
                     :
                         <Text>Loading</Text>
                     } 
                 </Box>
                 <Box>
-                    Options
+                    <FiMoreVertical fontSize="30px" onClick={onOpen}/>
                 </Box>
             </HStack>
             <Box
