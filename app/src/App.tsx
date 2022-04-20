@@ -22,7 +22,8 @@ const App = () => {
     const [ isLoadingUser, setIsLoadingUser ]: any = useState();
     const [ isLoadingEtherBalance, setIsLoadingEtherBalance ]: any = useState()
     const [ provider, setProvider ]: any = useState();
-    const [ account, setAccount ]: any = useState();
+    const [ accounts, setAccounts ]: any = useState();
+    const [ currentAccount, setCurrentAccount ]: any = useState();
     const [ wallet, setWallet ]: any = useState();
     const [ networkStats, setNetworkStats ]: any = useState({});
     const [ etherBalance, setEthereBalance ]: any = useState();
@@ -30,23 +31,35 @@ const App = () => {
     useEffect(() => { // refactor when adding chrome.storage
 
       const mountData = async () => {
-        const balance = await getUserEthereumBalance('0xB702DC679dCe8d27c77AC49A63B9A138B674929E')
+
         const networkStat = await getNetworkStats();
 
         const provider = new ethers.providers.JsonRpcProvider(alchemy_url)
         setProvider(provider)
         //setAddress("0xB702DC679dCe8d27c77AC49A63B9A138B674929E") // just for testing
 
-        console.log("FOO", priv_key, "BAR", provider)
         const wallet = await handleWalletConnection(priv_key, provider);
         setWallet(wallet)
-        console.log("WALLET", wallet)
-        setEthereBalance(balance)
         setNetworkStats(networkStat);
         chrome.storage.sync.get(null, function(res: any) {
-            console.log("GET ACCOUNT", res)
-            chrome.storage.sync.get(Object.keys(res)[0], function(account: any) {
-              setAccount(account);
+            console.log("ACCOUNTS", res)
+            setAccounts(res)
+            /*
+            chrome.storage.sync.get(null, function(userAccounts: any) {
+                const accountKeys = Object.keys(userAccounts);
+                accountKeys.map((account: any) => {
+                    chrome.storage.sync.get(account, function(res: any) {
+                        console.log("FOobar", res)
+                        setAccounts((accounts: any) => [res, ...accounts])
+                    })
+                })
+            })
+            */
+            chrome.storage.sync.get(res[Object.keys(res)[0]], async function(firstAccount: any) {
+              console.log("TESTING FIRST ACCOUNT", firstAccount)
+              setCurrentAccount(firstAccount);
+              const balance = await getUserEthereumBalance(firstAccount.address)
+              setEthereBalance(balance)
             })
         })
       }
@@ -62,8 +75,10 @@ const App = () => {
     <WalletContext.Provider
       value={{
         chrome,
-        account,
-        setAccount,
+        accounts,
+        setAccounts,
+        currentAccount,
+        setCurrentAccount,
         provider,
         wallet,
         networkStats,

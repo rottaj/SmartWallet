@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import {
     Box,
     Heading,
@@ -14,8 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { AiFillCloseCircle } from 'react-icons/ai';
 import { WalletContext } from '../../contexts';
-import { BsChevronCompactRight } from 'react-icons/bs';
-import { useEffect } from 'react';
+import { getUserEthereumBalance } from "../../utils/HandleUserTokens";
 
 type AccountModalProps = {
     isOpen: any;
@@ -26,20 +25,11 @@ type AccountModalProps = {
 const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
     
     const [ isCreating, setIsCreating ]: any = useState(false);
-    const [accounts, setAccounts]: any = useState([]);
-    const { chrome, account, setAccount }: any = useContext(WalletContext)
+    const { chrome, accounts, setCurrentAccount, setEthereBalance }: any = useContext(WalletContext)
 
 
     const getAccounts = () => {
-        chrome.storage.sync.get(null, function(userAccounts: any) {
-            const accountKeys = Object.keys(userAccounts);
-            accountKeys.map((account: any) => {
-                chrome.storage.sync.get(account, function(res: any) {
-                    console.log("FOobar", res)
-                    setAccounts((accounts: any) => [res, ...accounts])
-                })
-            })
-        })
+
     }
 
 
@@ -56,6 +46,14 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
         chrome.storage.sync.get(e.target[0].value, function(res: any) {
             console.log("GET ACCOUNT", res.privateKey)
         })
+    }
+
+    const handleAccountChange = async (account: any) => {
+        console.log("HANDLE", account)
+        setCurrentAccount(account);
+        const balance = await getUserEthereumBalance(account.address)
+        setEthereBalance(balance)
+        onClose();
     }
 
     useEffect(() => {
@@ -84,18 +82,20 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
                                 <AiFillCloseCircle size="40px"/>
                             </Box>
                             <Box mx="5px">
+                            {/*
                                 {accounts.map((account: any) => {
                                     return (
                                         <Box
                                             border="1px solid black"
                                             py="3px"
                                             my="3px"
-                                            onClick={() => {setAccount(account); onClose();}}
+                                            onClick={() => handleAccountChange(account)}
                                          >
                                             <Text fontSize="20px">{Object.keys(account)}</Text>
                                         </Box>
                                     )
                                 })}
+                            */}
                             </Box>
                             <Box
                                 border="1px solid black"

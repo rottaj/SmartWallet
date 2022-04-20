@@ -2,8 +2,10 @@ import { createContext } from 'react';
 
 type WalletContextType = {
     chrome: any;
-    account: any;
-    setAccount: any;
+    accounts: any;
+    setAccounts: any;
+    currentAccount: any;
+    setCurrentAccount: any;
     networkStats: any;
     wallet: any;
     etherBalance: any;
