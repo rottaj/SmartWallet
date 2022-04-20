@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react"
-import { AccountContext } from "../contexts";
+import { WalletContext } from "../contexts";
 import {
     Box,
     Heading,
@@ -17,7 +17,7 @@ import { AiFillCodeSandboxCircle } from "react-icons/ai";
 const TransactionHistory = () => {
 
     const [ recentTxns, setRecentTxns ]: any = useState([]);
-    const { address }: any = useContext(AccountContext)
+    const { address }: any = useContext(WalletContext)
 
 
     useEffect(() => {
@@ -58,7 +58,7 @@ type TransactionProps = {
 
 const Transaction = ({ txn } : TransactionProps) => {
 
-    const { address }: any = useContext(AccountContext);
+    const { address }: any = useContext(WalletContext);
     const getDate = () => {
         var date = new Date(txn.timeStamp * 1000);
         //return (date)

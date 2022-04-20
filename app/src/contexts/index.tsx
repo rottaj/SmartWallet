@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-type AccountContextType = {
+type WalletContextType = {
     chrome: any;
     address: any;
     networkStats: any;
@@ -9,5 +9,5 @@ type AccountContextType = {
     provider: any;
 }
 
-export const AccountContext =
-    createContext<AccountContextType | null>(null)
+export const WalletContext =
+    createContext<WalletContextType | null>(null)

@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import {
     Box,
     Heading,
@@ -13,6 +13,7 @@ import {
     ModalContent
 } from "@chakra-ui/react";
 import { AiFillCloseCircle } from 'react-icons/ai';
+import { WalletContext } from '../../contexts';
 
 type AccountModalProps = {
     isOpen: any;
@@ -23,12 +24,21 @@ type AccountModalProps = {
 const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
     
     const [ isCreating, setIsCreating ]: any = useState(false);
+    const { chrome, account, setAccount }: any = useContext(WalletContext)
 
-    const createNewAccount = async () => {
+    const createNewAccount = async (e: any) => {
+        e.preventDefault();
+        console.log("TESTING TARGET", e)
         const newWallet = ethers.Wallet.createRandom();
-        const wallet = new ethers.Wallet(newWallet.privateKey);
-        console.log(newWallet, wallet)
-        onClose()
+        const account = new ethers.Wallet(newWallet.privateKey);
+        console.log(newWallet, account)
+        //onClose()
+        chrome.storage.sync.set({[`${e.target[0].value}`]: account}, function() {
+            console.log("ACCOUNT CREATED", e.target[0].value, account)
+        })
+        chrome.storage.sync.get(e.target[0].value, function(res: any) {
+            console.log("GET ACCOUNT", res.privateKey)
+        })
     }
 
     return (
@@ -62,7 +72,12 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
                         </Box> 
                         :
                         <Box py="10px">
+
                             <Heading>Account Name</Heading>
+
+                            <form
+                                onSubmit={createNewAccount}
+                            >
                             <Input placeholder="Account 1" py="5px" px="5px"></Input> 
                             <HStack spacing="100px" pt="15px">
                                 <Box
@@ -73,15 +88,17 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
                                 >
                                     <Text>Cancel</Text>
                                 </Box>
-                                <Box
+                                <Button
                                     borderRadius="20px"
                                     width="160px"
                                     backgroundColor="lightblue"
-                                    onClick={() => createNewAccount()}
+                                    type="submit"
+                                    
                                 >
                                     <Text>Create</Text>
-                                </Box>
+                                </Button>
                             </HStack>
+                            </form>
                         </Box>
 
                     }

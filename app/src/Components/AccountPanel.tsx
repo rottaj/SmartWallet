@@ -5,11 +5,11 @@ import {
     Text,
     Heading
 } from "@chakra-ui/react"
-import { AccountContext } from "../contexts" 
+import { WalletContext } from "../contexts" 
 
 const AccountPanel = () => {
 
-    const { etherBalance, networkStats }: any = useContext(AccountContext)
+    const { etherBalance, networkStats }: any = useContext(WalletContext)
 
     return (
         <Box

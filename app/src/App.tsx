@@ -8,7 +8,7 @@ import AccountPanel from "./Components/AccountPanel";
 import PortfolioForecast from "./Components/PorfolioForecast";
 import { getUserEthereumBalance } from "./utils/HandleUserTokens";
 import { handleWalletConnection } from "./utils/HandleWalletConnection";
-import { AccountContext } from "./contexts";
+import { WalletContext } from "./contexts";
 import TransactionPanel from "./Components/TransactionPanel";
 import { ethers } from "ethers";
 import { getNetworkStats } from "./utils/HandleNetworkStats";
@@ -44,7 +44,9 @@ const App = () => {
         setEthereBalance(balance)
         setNetworkStats(networkStat);
         //chrome.storage.sync.set({"test": "test"})
-
+        chrome.storage.sync.get("test", function(res: any) {
+            console.log("GET ACCOUNT", res)
+        })
       }
 
       mountData();
@@ -55,7 +57,7 @@ const App = () => {
 
 
   return (
-    <AccountContext.Provider
+    <WalletContext.Provider
       value={{
         chrome,
         address,
@@ -76,7 +78,7 @@ const App = () => {
       <TransactionPanel/>
       <TransactionHistory/>
     </Box>
-    </AccountContext.Provider>
+    </WalletContext.Provider>
   );
 }
 

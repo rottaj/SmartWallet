@@ -13,9 +13,8 @@ import {
     ModalOverlay,
     ModalContent
 } from "@chakra-ui/react";
-import { AccountContext } from '../../contexts';
+import { WalletContext } from '../../contexts';
 import { FaEthereum } from 'react-icons/fa';
-import { FiChrome } from 'react-icons/fi';
 
 type TransactionModalProps = {
     isOpen: any;
@@ -29,7 +28,7 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
     const [ txnIsOpen, setTxnIsOpen ]: any = useState();
     const [ sendingEther, setSendingEther ]: any = useState();
     const [ currentGasPrice, setCurrentGasPrice ]: any = useState();
-    const { chrome, address, etherBalance, wallet, provider }: any = useContext(AccountContext);
+    const { chrome, address, etherBalance, wallet, provider }: any = useContext(WalletContext);
 
     const checkValidEthereumAddress = (address: string) => {
         try {

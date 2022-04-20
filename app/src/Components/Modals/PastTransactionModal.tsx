@@ -16,7 +16,7 @@ import {
     ModalOverlay,
     ModalContent
 } from "@chakra-ui/react";
-import { AccountContext } from '../../contexts';
+import { WalletContext } from '../../contexts';
 import { FaEthereum } from 'react-icons/fa';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
 import { AiFillCloseCircle } from 'react-icons/ai';
