@@ -13,6 +13,7 @@ import TransactionPanel from "./Components/TransactionPanel";
 import { ethers } from "ethers";
 import { getNetworkStats } from "./utils/HandleNetworkStats";
 import TransactionHistory from "./Components/TransactionHistory";
+import BaseContainer from "./Containers/BaseContainer";
 
 const alchemy_url: any = process.env.REACT_APP_ALCHEMY_RPC;
 const priv_key: any = process.env.REACT_APP_PRIV_KEY;
@@ -27,6 +28,7 @@ const App = () => {
     const [ wallet, setWallet ]: any = useState();
     const [ networkStats, setNetworkStats ]: any = useState({});
     const [ etherBalance, setEthereBalance ]: any = useState();
+    const [ isLoggedIn, setIsLoggedIn]: any = useState();
   
     useEffect(() => { // refactor when adding chrome.storage
 
@@ -41,27 +43,25 @@ const App = () => {
         const wallet = await handleWalletConnection(priv_key, provider);
         setWallet(wallet)
         setNetworkStats(networkStat);
+        
+
+        setIsLoggedIn(false);
+        chrome.storage.sync.get("loggedIn?", function(res: any) {
+          if (typeof res == undefined) {
+            
+          }
+        });
+
         chrome.storage.sync.get(null, function(res: any) {
-            console.log("ACCOUNTS", res)
-            setAccounts(res)
-            /*
-            chrome.storage.sync.get(null, function(userAccounts: any) {
-                const accountKeys = Object.keys(userAccounts);
-                accountKeys.map((account: any) => {
-                    chrome.storage.sync.get(account, function(res: any) {
-                        console.log("FOobar", res)
-                        setAccounts((accounts: any) => [res, ...accounts])
-                    })
-                })
-            })
-            */
+            console.log("ACCOUNTS", res);
+            setAccounts(res);
             chrome.storage.sync.get(res[Object.keys(res)[0]], async function(firstAccount: any) {
               console.log("TESTING FIRST ACCOUNT", Object.keys(res)[0])
               setCurrentAccount(Object.keys(res)[0]);
-              const balance = await getUserEthereumBalance(firstAccount.address)
-              setEthereBalance(balance)
-            })
-        })
+              const balance = await getUserEthereumBalance(firstAccount.address);
+              setEthereBalance(balance);
+            });
+        });
       }
 
       mountData();
@@ -77,6 +77,8 @@ const App = () => {
         chrome,
         accounts,
         setAccounts,
+        isLoggedIn,
+        setIsLoggedIn,
         currentAccount,
         setCurrentAccount,
         provider,
@@ -84,6 +86,7 @@ const App = () => {
         networkStats,
         etherBalance
       }}>
+        <BaseContainer/>
     <Box
       height="1200px"
       width="400px"
@@ -96,6 +99,7 @@ const App = () => {
       <TransactionPanel/>
       <TransactionHistory/>
     </Box>
+      <BaseContainer/>
     </WalletContext.Provider>
   );
 }

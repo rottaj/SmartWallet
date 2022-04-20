@@ -3,6 +3,8 @@ import { createContext } from 'react';
 type WalletContextType = {
     chrome: any;
     accounts: any;
+    isLoggedIn: any;
+    setIsLoggedIn: any;
     setAccounts: any;
     currentAccount: any;
     setCurrentAccount: any;
