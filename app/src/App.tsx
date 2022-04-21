@@ -27,7 +27,6 @@ const App = () => {
     const [ wallet, setWallet ]: any = useState();
     const [ networkStats, setNetworkStats ]: any = useState({});
     const [ etherBalance, setEthereBalance ]: any = useState();
-    const [ isLoggedIn, setIsLoggedIn]: any = useState();
     const [ isLocked, setIsLocked]: any = useState();
     useEffect(() => { // refactor when adding chrome.storage
 
@@ -36,15 +35,17 @@ const App = () => {
         const networkStat = await getNetworkStats();
         setNetworkStats(networkStat);
 
-        console.log("FOOOOOOBAR")
         chrome.storage.sync.get(null, function(res: any) {
-          console.log("ACCOUNTS", res);
-          setAccounts(res);
+          
+          if (res["isInitialized?"]) {
+            delete res["isIniitialized?"]
+            console.log("FOUND & DELEETED", res)
+          }
 
+          setAccounts(res);
         })
 
         const provider = new ethers.providers.JsonRpcProvider(alchemy_url);
-        console.log("INIT PROVIDER", provider);
         setProvider(provider);
 
         /*
@@ -56,7 +57,6 @@ const App = () => {
         */
 
         chrome.storage.sync.get("isInitialized?", function(res: any) {
-          console.log("HELLLLOW WORLD", res)
           if (Object(res).keys.includes("isInitialized?")) {
               if (res["isInitialized?"] == true) {
                 setIsLocked(false);
@@ -78,8 +78,6 @@ const App = () => {
         chrome,
         accounts,
         setAccounts,
-        isLoggedIn,
-        setIsLoggedIn,
         currentAccount,
         setCurrentAccount,
         isLocked,
@@ -97,7 +95,6 @@ const App = () => {
       borderRadius="20px"
     >
       <TopHeading/>
-      {console.log("ISLOCKED", isLocked)}
       <AccountPanel/>
       <PortfolioForecast/>
       <TransactionPanel/>

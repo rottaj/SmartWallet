@@ -6,15 +6,15 @@ import LoginPage from './LoginPage';
 
 const BaseContainer = () => {
 
-    const { chrome, isLoggedIn, isLocked, accounts }: any = useContext(WalletContext);
+    const { chrome, isLocked, accounts }: any = useContext(WalletContext);
     
 
     return (
        <>
-        {console.log("TESTTTTT", isLoggedIn, isLocked)}
+        {console.log("TESTTTTT", isLocked)}
         {Object.keys(accounts).length > 1 ?
             <>
-            {isLoggedIn == false && isLocked != true? 
+            {isLocked == true? 
                 <LoginPage/>
                 :
                 <>

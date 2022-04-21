@@ -13,7 +13,7 @@ import {
     ModalOverlay,
     ModalContent
 } from "@chakra-ui/react";
-import { AiFillCloseCircle } from 'react-icons/ai';
+import { AiFillCloseCircle, AiFillLock } from 'react-icons/ai';
 import { WalletContext } from '../../contexts';
 import { getUserEthereumBalance } from "../../utils/HandleUserTokens";
 
@@ -26,7 +26,7 @@ type AccountModalProps = {
 const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
     
     const [ isCreating, setIsCreating ]: any = useState(false);
-    const { chrome, accounts, setCurrentAccount, setEthereBalance }: any = useContext(WalletContext)
+    const { chrome, accounts, setCurrentAccount, setEthereBalance, setIsLocked }: any = useContext(WalletContext)
 
 
 
@@ -70,9 +70,21 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
                 <ModalBody>
                     {!isCreating ? 
                         <Box>
-                            <Box textAlign="right" onClick={() => onClose()} px="10px" pt="10px">
-                                <AiFillCloseCircle size="40px"/>
-                            </Box>
+                            <HStack spacing="200px">
+                                <Flex>
+                                    <Box onClick={() => { setIsLocked(true); console.log("CLICKED")} }>
+                                        <Text fontSize="15px">Lock</Text>
+                                    </Box>
+                                    <Box>
+                                        <AiFillLock/>
+                                    </Box>
+                                </Flex>
+
+                                <Box textAlign="right" onClick={() => onClose()} px="10px" pt="10px">
+                                    <AiFillCloseCircle size="40px"/>
+                                </Box>
+                            </HStack>
+
                             <Box mx="5px">
                                 {Object.keys(accounts).map((account, item: any) => {
                                     return (

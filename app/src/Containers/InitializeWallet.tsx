@@ -16,7 +16,7 @@ const priv_key: any = process.env.REACT_APP_PRIV_KEY;
 
 const InitializeWallet = () => {
 
-    const { chrome, setIsLoggedIn, setIsLocked, wallet }: any = useContext(WalletContext)
+    const { chrome, setIsLocked, wallet }: any = useContext(WalletContext)
 
     useEffect(() => {
 
@@ -50,7 +50,6 @@ const InitializeWallet = () => {
         chrome.storage.sync.set({"isInitialized?": true}, function() {
             console.log("Initialized Wallet")
         })
-        setIsLoggedIn(true);
         setIsLocked(false);
         
     }

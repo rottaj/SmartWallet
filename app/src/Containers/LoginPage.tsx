@@ -40,6 +40,9 @@ const LoginPage = () => {
                 </Button>
                 </InputRightElement>
             </InputGroup>
+            <Button type="submit">
+                Login
+            </Button>
             </form>
         </Box>
     )
