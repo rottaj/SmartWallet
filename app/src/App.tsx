@@ -15,7 +15,7 @@ import { getNetworkStats } from "./utils/HandleNetworkStats";
 import TransactionHistory from "./Components/TransactionHistory";
 import BaseContainer from "./Containers/BaseContainer";
 
-
+const alchemy_url: any = process.env.REACT_APP_ALCHEMY_RPC;
 
 declare let chrome: any;
 const App = () => {
@@ -28,7 +28,7 @@ const App = () => {
     const [ networkStats, setNetworkStats ]: any = useState({});
     const [ etherBalance, setEthereBalance ]: any = useState();
     const [ isLoggedIn, setIsLoggedIn]: any = useState();
-    const [ isConnected, setIsConnected]: any = useState();
+    const [ isLocked, setIsLocked]: any = useState();
     useEffect(() => { // refactor when adding chrome.storage
 
       const mountData = async () => {
@@ -36,27 +36,33 @@ const App = () => {
         const networkStat = await getNetworkStats();
         setNetworkStats(networkStat);
 
-        setIsLoggedIn(true);
-
         console.log("FOOOOOOBAR")
         chrome.storage.sync.get(null, function(res: any) {
           console.log("ACCOUNTS", res);
           setAccounts(res);
-          /*
-          chrome.storage.sync.get(res[Object.keys(res)[0]], async function(firstAccount: any) {
-            //console.log("TESTING FIRST ACCOUNT", Object.keys(res)[0])
-            console.log(firstAccount)
-            setCurrentAccount(Object.keys(res)[0]);
-            const balance = await getUserEthereumBalance(firstAccount.address);
-            setEthereBalance(balance);
-          });
-          */
-         //chrome.storage.sync.remove(Object.keys(res));
 
         })
+
+        const provider = new ethers.providers.JsonRpcProvider(alchemy_url);
+        console.log("INIT PROVIDER", provider);
+        setProvider(provider);
+
+        /*
+        const newWallet = ethers.Wallet.createRandom();
+        const wallet = new ethers.Wallet(newWallet.privateKey);
+        //const wallet = await handleWalletConnection(priv_key, provider);
+        console.log("INIT WALLET", wallet)
+        setWallet(wallet)
+        */
+
         chrome.storage.sync.get("isInitialized?", function(res: any) {
+          console.log("HELLLLOW WORLD", res)
           if (Object(res).keys.includes("isInitialized?")) {
-              setIsConnected(true);
+              if (res["isInitialized?"] == true) {
+                setIsLocked(false);
+              } else if (res["isInitialized?"] == false) {
+                setIsLocked(true)
+              }
           }
         })
       }
@@ -76,8 +82,8 @@ const App = () => {
         setIsLoggedIn,
         currentAccount,
         setCurrentAccount,
-        isConnected,
-        setIsConnected,
+        isLocked,
+        setIsLocked,
         provider,
         wallet,
         networkStats,
@@ -91,6 +97,7 @@ const App = () => {
       borderRadius="20px"
     >
       <TopHeading/>
+      {console.log("ISLOCKED", isLocked)}
       <AccountPanel/>
       <PortfolioForecast/>
       <TransactionPanel/>

@@ -16,7 +16,7 @@ const priv_key: any = process.env.REACT_APP_PRIV_KEY;
 
 const InitializeWallet = () => {
 
-    const { chrome, setProvider, setWallet}: any = useContext(WalletContext)
+    const { chrome, setIsLoggedIn, setIsLocked, wallet }: any = useContext(WalletContext)
 
     useEffect(() => {
 
@@ -26,28 +26,33 @@ const InitializeWallet = () => {
         e.preventDefault();
         console.log(e)
         const passwordHash = sha256(e.target[0].value)
-        console.log("HAHS",passwordHash)
-
+        console.log("INIT HAHS", passwordHash.toString())
+        /*
         const provider = new ethers.providers.JsonRpcProvider(alchemy_url);
+        console.log("INIT PROVIDER", provider)
         setProvider(provider);
 
         const newWallet = ethers.Wallet.createRandom();
         const wallet = new ethers.Wallet(newWallet.privateKey);
         //const wallet = await handleWalletConnection(priv_key, provider);
+        console.log("INIT WALLET", wallet)
         setWallet(wallet)
+        */
 
+        const newWallet = ethers.Wallet.createRandom();
+        const wallet = new ethers.Wallet(newWallet.privateKey);
 
-        /*
         chrome.storage.sync.set({"Account 1": wallet}, function() {
             console.log("ACCOUNT CREATED", 'Account 1', Object.getOwnPropertyNames(wallet))
         })
-        */
-
-        /*
+        
+        
         chrome.storage.sync.set({"isInitialized?": true}, function() {
             console.log("Initialized Wallet")
         })
-        */
+        setIsLoggedIn(true);
+        setIsLocked(false);
+        
     }
 
     return (
