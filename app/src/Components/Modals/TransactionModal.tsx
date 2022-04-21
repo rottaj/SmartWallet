@@ -77,7 +77,6 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
 
     useEffect(() => {
         getCurrentGasPrice()
-        console.log("TESTING STORAGE", chrome.storage)
     }, [txnIsOpen])
 
 

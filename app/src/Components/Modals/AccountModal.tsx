@@ -26,16 +26,22 @@ type AccountModalProps = {
 const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
     
     const [ isCreating, setIsCreating ]: any = useState(false);
-    const { chrome, accounts, setCurrentAccount, setEthereBalance, setIsLocked }: any = useContext(WalletContext)
+    const { 
+        chrome, 
+        provider, 
+        setWallet, 
+        accounts, 
+        setCurrentAccount, 
+        setEtherBalance, 
+        setIsLocked 
+    }: any = useContext(WalletContext)
 
 
 
     const createNewAccount = async (e: any) => {
         e.preventDefault();
-        console.log("TESTING TARGET", e)
         const newWallet = ethers.Wallet.createRandom();
         const account = new ethers.Wallet(newWallet.privateKey);
-        console.log("NEW ACCOUNT", account)
         //onClose()
         chrome.storage.sync.set({[`${e.target[0].value}`]: account}, function() {
             console.log("ACCOUNT CREATED", e.target[0].value, account, Object.getOwnPropertyNames(account))
@@ -46,10 +52,14 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
     }
 
     const handleAccountChange = async (account: any) => {
-        console.log("HANDLE", account)
+        console.log("TESTING CHANGE", accounts[account]._privateKey)
         setCurrentAccount(account);
+        const wallet = new ethers.Wallet(accounts[account]._privateKey, provider);
+        console.log("TESTING WALLET CHANGE", wallet)
         const balance = await getEthereumBalance(accounts[account].address)
-        setEthereBalance(balance)
+        setWallet(wallet)
+        setEtherBalance(balance)
+
     }
 
      return (

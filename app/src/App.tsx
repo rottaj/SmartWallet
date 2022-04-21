@@ -36,12 +36,6 @@ const App = () => {
         setNetworkStats(networkStat);
 
         chrome.storage.sync.get(null, function(res: any) {
-          
-          if (res["isInitialized?"]) {
-            delete res["isIniitialized?"]
-            console.log("FOUND & DELEETED", res)
-          }
-
           setAccounts(res);
         })
 
