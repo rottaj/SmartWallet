@@ -1,27 +1,39 @@
+import { Box } from '@chakra-ui/react';
 import { useEffect } from 'react';
 import { useContext } from 'react';
 import { WalletContext } from "../contexts";
 import InitializeWallet from './InitializeWallet';
 import LoginPage from './LoginPage';
-
+import { 
+    Spinner,
+    Center
+} from '@chakra-ui/react'
 const BaseContainer = () => {
 
-    const { chrome, isLocked, accounts }: any = useContext(WalletContext);
+    const { chrome, isLocked, accounts, isLoadingUser }: any = useContext(WalletContext);
     
 
     return (
        <>
-        {Object.keys(accounts).length > 1 ?
+        {isLoadingUser ?
+            <Center>
+                <Spinner/>
+            </Center>
+            :
             <>
-            {isLocked == true? 
-                <LoginPage/>
-                :
+            {Object.keys(accounts).length > 1 ?
                 <>
+                {isLocked == true? 
+                    <LoginPage/>
+                    :
+                    <>
+                    </>
+                }
                 </>
+                :
+                <InitializeWallet/>
             }
             </>
-            :
-            <InitializeWallet/>
         }
 
        </> 

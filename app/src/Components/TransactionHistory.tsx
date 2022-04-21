@@ -58,7 +58,7 @@ type TransactionProps = {
 
 const Transaction = ({ txn } : TransactionProps) => {
 
-    const { address }: any = useContext(WalletContext);
+    const { accounts, currentAccount }: any = useContext(WalletContext);
     const getDate = () => {
         var date = new Date(txn.timeStamp * 1000);
         //return (date)
@@ -81,7 +81,7 @@ const Transaction = ({ txn } : TransactionProps) => {
             <HStack spacing="200px">
                 <Flex>
                     <Box pt="18px" pr="5px">
-                        {String(txn.to).toUpperCase() != String(address).toUpperCase() ?
+                        {String(txn.to).toUpperCase() != String(accounts[currentAccount].address).toUpperCase() ?
                             <FiSend fontSize="30px"/>
                         :
                         <>
@@ -95,7 +95,7 @@ const Transaction = ({ txn } : TransactionProps) => {
                         }
                     </Box>
                     <Box>
-                        {String(txn.to).toUpperCase() == String(address).toUpperCase() ?
+                        {String(txn.to).toUpperCase() == String(accounts[currentAccount].address).toUpperCase() ?
                             <Text fontSize="20px">Receive</Text> 
                             :
                             <>
@@ -111,7 +111,7 @@ const Transaction = ({ txn } : TransactionProps) => {
                     </Box>
                 </Flex>
                 <Box>
-                    {String(txn.to).toUpperCase() != String(address).toUpperCase()  ?
+                    {String(txn.to).toUpperCase() != String(accounts[currentAccount].address).toUpperCase()  ?
                     <Text>-{parseFloat(String(ethers.utils.formatEther(txn.value))).toFixed(2)} ETH</Text>
                     :
                     <Text>+{parseFloat(String(ethers.utils.formatEther(txn.value))).toFixed(2)} ETH</Text>
@@ -120,7 +120,7 @@ const Transaction = ({ txn } : TransactionProps) => {
             </HStack>
             <Flex margin="0">
                 <Text color="green">{getDate()} </Text>
-                {String(txn.to).toUpperCase() != String(address).toUpperCase() ?
+                {String(txn.to).toUpperCase() != String(accounts[currentAccount].address).toUpperCase() ?
                 <Text pl="10px">To: {txn.to.substr(0,8)}...</Text>
                 :
                 <Text pl="10px">From: {txn.from.substr(0,8)}...</Text>

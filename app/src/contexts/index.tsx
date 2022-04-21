@@ -12,6 +12,7 @@ type WalletContextType = {
     etherBalance: any;
     setEtherBalance: any;
     provider: any;
+    isLoadingUser: any;
 }
 
 export const WalletContext =

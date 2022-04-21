@@ -31,6 +31,7 @@ const App = () => {
 
       const mountData = async () => {
 
+        setIsLoadingUser(true);
         const networkStat = await getNetworkStats();
         setNetworkStats(networkStat);
 
@@ -50,6 +51,7 @@ const App = () => {
         */
 
         chrome.storage.sync.get("isInitialized?", function(res: any) {
+
           if (Object(res).keys.includes("isInitialized?")) {
               if (res["isInitialized?"] == true) {
                 setIsLocked(false);
@@ -58,6 +60,8 @@ const App = () => {
               }
           }
         })
+
+        setIsLoadingUser(false);
       }
 
       mountData();
@@ -78,7 +82,8 @@ const App = () => {
         provider,
         networkStats,
         etherBalance,
-        setEtherBalance
+        setEtherBalance,
+        isLoadingUser
       }}>
         <BaseContainer/>
     <Box
