@@ -9,6 +9,8 @@ type WalletContextType = {
     currentAccount: any;
     setCurrentAccount: any;
     networkStats: any;
+    isConnected: any;
+    setIsConnected: any;
     wallet: any;
     etherBalance: any;
     provider: any;

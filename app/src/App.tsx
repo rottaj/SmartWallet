@@ -28,7 +28,7 @@ const App = () => {
     const [ networkStats, setNetworkStats ]: any = useState({});
     const [ etherBalance, setEthereBalance ]: any = useState();
     const [ isLoggedIn, setIsLoggedIn]: any = useState();
-  
+    const [ isConnected, setIsConnected]: any = useState();
     useEffect(() => { // refactor when adding chrome.storage
 
       const mountData = async () => {
@@ -38,10 +38,11 @@ const App = () => {
 
         setIsLoggedIn(true);
 
-
+        console.log("FOOOOOOBAR")
         chrome.storage.sync.get(null, function(res: any) {
           console.log("ACCOUNTS", res);
           setAccounts(res);
+          /*
           chrome.storage.sync.get(res[Object.keys(res)[0]], async function(firstAccount: any) {
             //console.log("TESTING FIRST ACCOUNT", Object.keys(res)[0])
             console.log(firstAccount)
@@ -49,13 +50,19 @@ const App = () => {
             const balance = await getUserEthereumBalance(firstAccount.address);
             setEthereBalance(balance);
           });
-        });
+          */
+         //chrome.storage.sync.remove(Object.keys(res));
+
+        })
+        chrome.storage.sync.get("isInitialized?", function(res: any) {
+          if (Object(res).keys.includes("isInitialized?")) {
+              setIsConnected(true);
+          }
+        })
       }
 
       mountData();
     }, [])
-
-
 
 
 
@@ -69,6 +76,8 @@ const App = () => {
         setIsLoggedIn,
         currentAccount,
         setCurrentAccount,
+        isConnected,
+        setIsConnected,
         provider,
         wallet,
         networkStats,
