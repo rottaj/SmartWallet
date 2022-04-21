@@ -11,15 +11,18 @@ import AccountSettingsModal from './Modals/AccountSettingsModal';
 import { generateQRCode } from '../utils/GenerateQrCode';
 import { FiCopy, FiMoreVertical } from 'react-icons/fi';
 import { WalletContext } from "../contexts" 
+import { getEthereumBalance } from '../utils/HandleUserTokens';
 
 const AccountPanel = () => {
 
-    const { accounts, currentAccount, etherBalance, networkStats }: any = useContext(WalletContext)
+    const { accounts, currentAccount, etherBalance, setEtherBalance, networkStats }: any = useContext(WalletContext)
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     useEffect(() => {
         const mountData = async () => {
             console.log("MOUNTDATA");
+            const ethBalance = await getEthereumBalance(accounts[currentAccount].address)
+            setEtherBalance(ethBalance);
             const data = await generateQRCode(accounts[currentAccount].address);
             console.log("QR DATA", data);
         }

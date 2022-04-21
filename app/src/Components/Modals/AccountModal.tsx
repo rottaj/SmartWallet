@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { AiFillCloseCircle, AiFillLock } from 'react-icons/ai';
 import { WalletContext } from '../../contexts';
-import { getUserEthereumBalance } from "../../utils/HandleUserTokens";
+import { getEthereumBalance } from "../../utils/HandleUserTokens";
 
 type AccountModalProps = {
     isOpen: any;
@@ -48,7 +48,7 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
     const handleAccountChange = async (account: any) => {
         console.log("HANDLE", account)
         setCurrentAccount(account);
-        const balance = await getUserEthereumBalance(accounts[account].address)
+        const balance = await getEthereumBalance(accounts[account].address)
         setEthereBalance(balance)
     }
 

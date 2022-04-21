@@ -11,6 +11,7 @@ type WalletContextType = {
     setIsLocked: any;
     wallet: any;
     etherBalance: any;
+    setEtherBalance: any;
     provider: any;
 }
 

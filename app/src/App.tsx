@@ -6,7 +6,7 @@ import {
 import TopHeading from "./Components/TopHeading";
 import AccountPanel from "./Components/AccountPanel";
 import PortfolioForecast from "./Components/PorfolioForecast";
-import { getUserEthereumBalance } from "./utils/HandleUserTokens";
+//import { getEthereumBalance } from "./utils/HandleUserTokens";
 import { handleWalletConnection } from "./utils/HandleWalletConnection";
 import { WalletContext } from "./contexts";
 import TransactionPanel from "./Components/TransactionPanel";
@@ -26,7 +26,7 @@ const App = () => {
     const [ currentAccount, setCurrentAccount ]: any = useState();
     const [ wallet, setWallet ]: any = useState();
     const [ networkStats, setNetworkStats ]: any = useState({});
-    const [ etherBalance, setEthereBalance ]: any = useState();
+    const [ etherBalance, setEtherBalance ]: any = useState();
     const [ isLocked, setIsLocked]: any = useState();
     useEffect(() => { // refactor when adding chrome.storage
 
@@ -85,7 +85,8 @@ const App = () => {
         provider,
         wallet,
         networkStats,
-        etherBalance
+        etherBalance,
+        setEtherBalance
       }}>
         <BaseContainer/>
     <Box
