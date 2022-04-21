@@ -9,7 +9,6 @@ type WalletContextType = {
     networkStats: any;
     isLocked: any;
     setIsLocked: any;
-    wallet: any;
     etherBalance: any;
     setEtherBalance: any;
     provider: any;

@@ -31,6 +31,7 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
         provider, 
         setWallet, 
         accounts, 
+        currentAccount,
         setCurrentAccount, 
         setEtherBalance, 
         setIsLocked 
@@ -41,13 +42,14 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
     const createNewAccount = async (e: any) => {
         e.preventDefault();
         const newWallet = ethers.Wallet.createRandom();
-        const account = new ethers.Wallet(newWallet.privateKey);
+        const account: any = new ethers.Wallet(newWallet.privateKey, provider);
+        account['_privateKey'] = newWallet.privateKey
         //onClose()
         chrome.storage.sync.set({[`${e.target[0].value}`]: account}, function() {
             console.log("ACCOUNT CREATED", e.target[0].value, account, Object.getOwnPropertyNames(account))
         })
         chrome.storage.sync.get(e.target[0].value, function(res: any) {
-            console.log("GET ACCOUNT", res.privateKey)
+            console.log("GET ACCOUNT", res._privateKey)
         })
     }
 
@@ -78,6 +80,12 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
                 border="1px solid black"
             >
                 <ModalBody>
+                    {/*console.log("PRIVATE KEY", accounts[currentAccount]._privateKey)*/}
+                    {currentAccount &&
+                        <>
+                        {console.log("CURRENT ACCOUNT", currentAccount, "KEYS", Object.getOwnPropertyNames(accounts[currentAccount]))}
+                        </>
+                    }
                     {!isCreating ? 
                         <Box>
                             <HStack spacing="200px">

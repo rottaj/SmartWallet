@@ -17,19 +17,19 @@ import { AiFillCodeSandboxCircle } from "react-icons/ai";
 const TransactionHistory = () => {
 
     const [ recentTxns, setRecentTxns ]: any = useState([]);
-    const { address }: any = useContext(WalletContext)
+    const { accounts, currentAccount }: any = useContext(WalletContext)
 
 
     useEffect(() => {
         const mountData = async () => {
-            const txns = await fetchRecentTransactions(address);
+            const txns = await fetchRecentTransactions(accounts[currentAccount].address);
             console.log(txns);
             if (txns != "Error! Invalid address format") {
                 setRecentTxns(txns);
             }
         }
         mountData();
-    }, [address])
+    }, [currentAccount])
 
     return (
         <Box

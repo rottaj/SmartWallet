@@ -20,11 +20,9 @@ const AccountPanel = () => {
 
     useEffect(() => {
         const mountData = async () => {
-            console.log("MOUNTDATA");
             const ethBalance = await getEthereumBalance(accounts[currentAccount].address)
             setEtherBalance(ethBalance);
-            const data = await generateQRCode(accounts[currentAccount].address);
-            console.log("QR DATA", data);
+            //const data = await generateQRCode(accounts[currentAccount].address);
         }
         mountData();
     }, [currentAccount])
@@ -44,7 +42,7 @@ const AccountPanel = () => {
                     Connected
                 </Box>
                 <Box>
-                    {console.log("TESTING CURRENT ACC", currentAccount, typeof(currentAccount))}
+                    {console.log("CURRENT ACCOUNT: ", currentAccount)}
                     {currentAccount !== undefined ?
                         <Box>
                             <Text>{currentAccount}</Text>

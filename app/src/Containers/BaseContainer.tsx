@@ -11,7 +11,6 @@ const BaseContainer = () => {
 
     return (
        <>
-        {console.log("TESTTTTT", isLocked)}
         {Object.keys(accounts).length > 1 ?
             <>
             {isLocked == true? 

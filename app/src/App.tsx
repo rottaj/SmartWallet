@@ -24,7 +24,6 @@ const App = () => {
     const [ provider, setProvider ]: any = useState();
     const [ accounts, setAccounts ]: any = useState({});
     const [ currentAccount, setCurrentAccount ]: any = useState();
-    const [ wallet, setWallet ]: any = useState();
     const [ networkStats, setNetworkStats ]: any = useState({});
     const [ etherBalance, setEtherBalance ]: any = useState();
     const [ isLocked, setIsLocked]: any = useState();
@@ -77,7 +76,6 @@ const App = () => {
         isLocked,
         setIsLocked,
         provider,
-        wallet,
         networkStats,
         etherBalance,
         setEtherBalance

@@ -28,7 +28,7 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
     const [ txnIsOpen, setTxnIsOpen ]: any = useState();
     const [ sendingEther, setSendingEther ]: any = useState();
     const [ currentGasPrice, setCurrentGasPrice ]: any = useState();
-    const { chrome, address, etherBalance, wallet, provider }: any = useContext(WalletContext);
+    const { chrome, accounts, currentAccount, etherBalance, provider }: any = useContext(WalletContext);
 
     const checkValidEthereumAddress = (address: string) => {
         try {
@@ -49,7 +49,7 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
 
     const createTransaction = () => {
         const txn = {
-            from: address,
+            from: accounts[currentAccount].address,
             to: recipientAddress,
             //gasLimit: "21000", // need to update to currentGasPrice
             //maxFeePerGas: "300", 
@@ -62,8 +62,8 @@ const TransactionModal = ({isOpen, onOpen, onClose}: TransactionModalProps) => {
 
     const sendTransaction = async () => {
         const txn = createTransaction();
-        console.log("WALLET", wallet)
         console.log("TXN", txn)
+        const wallet = new ethers.Wallet(accounts[currentAccount]._privateKey, provider);
         await wallet.sendTransaction(txn).then((data: any) => {
             console.log("SENT", data)
             onClose();
