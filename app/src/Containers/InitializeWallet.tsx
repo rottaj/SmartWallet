@@ -16,7 +16,7 @@ const priv_key: any = process.env.REACT_APP_PRIV_KEY;
 
 const InitializeWallet = () => {
 
-    const { chrome, setIsLoggedIn, setIsLocked, wallet }: any = useContext(WalletContext)
+    const { chrome, setIsLocked, provider }: any = useContext(WalletContext)
 
     useEffect(() => {
 
@@ -40,8 +40,8 @@ const InitializeWallet = () => {
         */
 
         const newWallet = ethers.Wallet.createRandom();
-        const wallet = new ethers.Wallet(newWallet.privateKey);
-
+        const wallet: any = new ethers.Wallet(newWallet.privateKey, provider);
+        wallet['_privateKey'] = newWallet.privateKey;
         chrome.storage.sync.set({"Account 1": wallet}, function() {
             console.log("ACCOUNT CREATED", 'Account 1', Object.getOwnPropertyNames(wallet))
         })
@@ -50,7 +50,6 @@ const InitializeWallet = () => {
         chrome.storage.sync.set({"isInitialized?": true}, function() {
             console.log("Initialized Wallet")
         })
-        setIsLoggedIn(true);
         setIsLocked(false);
         
     }

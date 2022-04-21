@@ -13,9 +13,9 @@ import {
     ModalOverlay,
     ModalContent
 } from "@chakra-ui/react";
-import { AiFillCloseCircle } from 'react-icons/ai';
+import { AiFillCloseCircle, AiFillLock } from 'react-icons/ai';
 import { WalletContext } from '../../contexts';
-import { getUserEthereumBalance } from "../../utils/HandleUserTokens";
+import { getEthereumBalance } from "../../utils/HandleUserTokens";
 
 type AccountModalProps = {
     isOpen: any;
@@ -26,30 +26,42 @@ type AccountModalProps = {
 const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
     
     const [ isCreating, setIsCreating ]: any = useState(false);
-    const { chrome, accounts, setCurrentAccount, setEthereBalance }: any = useContext(WalletContext)
+    const { 
+        chrome, 
+        provider, 
+        setWallet, 
+        accounts, 
+        currentAccount,
+        setCurrentAccount, 
+        setEtherBalance, 
+        setIsLocked 
+    }: any = useContext(WalletContext)
 
 
 
     const createNewAccount = async (e: any) => {
         e.preventDefault();
-        console.log("TESTING TARGET", e)
         const newWallet = ethers.Wallet.createRandom();
-        const account = new ethers.Wallet(newWallet.privateKey);
-        console.log("NEW ACCOUNT", account)
+        const account: any = new ethers.Wallet(newWallet.privateKey, provider);
+        account['_privateKey'] = newWallet.privateKey
         //onClose()
         chrome.storage.sync.set({[`${e.target[0].value}`]: account}, function() {
             console.log("ACCOUNT CREATED", e.target[0].value, account, Object.getOwnPropertyNames(account))
         })
         chrome.storage.sync.get(e.target[0].value, function(res: any) {
-            console.log("GET ACCOUNT", res.privateKey)
+            console.log("GET ACCOUNT", res._privateKey)
         })
     }
 
     const handleAccountChange = async (account: any) => {
-        console.log("HANDLE", account)
+        console.log("TESTING CHANGE", accounts[account]._privateKey)
         setCurrentAccount(account);
-        const balance = await getUserEthereumBalance(accounts[account].address)
-        setEthereBalance(balance)
+        const wallet = new ethers.Wallet(accounts[account]._privateKey, provider);
+        console.log("TESTING WALLET CHANGE", wallet)
+        const balance = await getEthereumBalance(accounts[account].address)
+        setWallet(wallet)
+        setEtherBalance(balance)
+
     }
 
      return (
@@ -68,11 +80,29 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
                 border="1px solid black"
             >
                 <ModalBody>
+                    {/*console.log("PRIVATE KEY", accounts[currentAccount]._privateKey)*/}
+                    {currentAccount &&
+                        <>
+                        {console.log("CURRENT ACCOUNT", currentAccount, "KEYS", Object.getOwnPropertyNames(accounts[currentAccount]))}
+                        </>
+                    }
                     {!isCreating ? 
                         <Box>
-                            <Box textAlign="right" onClick={() => onClose()} px="10px" pt="10px">
-                                <AiFillCloseCircle size="40px"/>
-                            </Box>
+                            <HStack spacing="200px">
+                                <Flex>
+                                    <Box onClick={() => { setIsLocked(true); console.log("CLICKED")} }>
+                                        <Text fontSize="15px">Lock</Text>
+                                    </Box>
+                                    <Box>
+                                        <AiFillLock/>
+                                    </Box>
+                                </Flex>
+
+                                <Box textAlign="right" onClick={() => onClose()} px="10px" pt="10px">
+                                    <AiFillCloseCircle size="40px"/>
+                                </Box>
+                            </HStack>
+
                             <Box mx="5px">
                                 {Object.keys(accounts).map((account, item: any) => {
                                     return (

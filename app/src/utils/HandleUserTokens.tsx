@@ -13,7 +13,7 @@ const ETHERSCAN_API_ETH_BALANCE = 'https://api-rinkeby.etherscan.io/api?module=a
 export const getUserERC20Tokens = async () => {
 }
 
-export const getUserEthereumBalance = async (address: any) => {
+export const getEthereumBalance = async (address: any) => {
     const url = ETHERSCAN_API_ETH_BALANCE + address + '&tag=latest&apikey='+process.env.REACT_APP_ETHERSCAN_API_KEY;
     let response = await fetch(url)
     const data = await response.json()

@@ -11,17 +11,18 @@ import AccountSettingsModal from './Modals/AccountSettingsModal';
 import { generateQRCode } from '../utils/GenerateQrCode';
 import { FiCopy, FiMoreVertical } from 'react-icons/fi';
 import { WalletContext } from "../contexts" 
+import { getEthereumBalance } from '../utils/HandleUserTokens';
 
 const AccountPanel = () => {
 
-    const { accounts, currentAccount, etherBalance, networkStats }: any = useContext(WalletContext)
+    const { accounts, currentAccount, etherBalance, setEtherBalance, networkStats }: any = useContext(WalletContext)
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     useEffect(() => {
         const mountData = async () => {
-            console.log("MOUNTDATA");
-            const data = await generateQRCode(accounts[currentAccount].address);
-            console.log("QR DATA", data);
+            const ethBalance = await getEthereumBalance(accounts[currentAccount].address)
+            setEtherBalance(ethBalance);
+            //const data = await generateQRCode(accounts[currentAccount].address);
         }
         mountData();
     }, [currentAccount])
@@ -41,7 +42,7 @@ const AccountPanel = () => {
                     Connected
                 </Box>
                 <Box>
-                    {console.log("TESTING CURRENT ACC", currentAccount, typeof(currentAccount))}
+                    {console.log("CURRENT ACCOUNT: ", currentAccount)}
                     {currentAccount !== undefined ?
                         <Box>
                             <Text>{currentAccount}</Text>

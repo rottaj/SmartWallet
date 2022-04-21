@@ -6,7 +6,7 @@ import {
 import TopHeading from "./Components/TopHeading";
 import AccountPanel from "./Components/AccountPanel";
 import PortfolioForecast from "./Components/PorfolioForecast";
-import { getUserEthereumBalance } from "./utils/HandleUserTokens";
+//import { getEthereumBalance } from "./utils/HandleUserTokens";
 import { handleWalletConnection } from "./utils/HandleWalletConnection";
 import { WalletContext } from "./contexts";
 import TransactionPanel from "./Components/TransactionPanel";
@@ -24,27 +24,22 @@ const App = () => {
     const [ provider, setProvider ]: any = useState();
     const [ accounts, setAccounts ]: any = useState({});
     const [ currentAccount, setCurrentAccount ]: any = useState();
-    const [ wallet, setWallet ]: any = useState();
     const [ networkStats, setNetworkStats ]: any = useState({});
-    const [ etherBalance, setEthereBalance ]: any = useState();
-    const [ isLoggedIn, setIsLoggedIn]: any = useState();
+    const [ etherBalance, setEtherBalance ]: any = useState();
     const [ isLocked, setIsLocked]: any = useState();
     useEffect(() => { // refactor when adding chrome.storage
 
       const mountData = async () => {
 
+        setIsLoadingUser(true);
         const networkStat = await getNetworkStats();
         setNetworkStats(networkStat);
 
-        console.log("FOOOOOOBAR")
         chrome.storage.sync.get(null, function(res: any) {
-          console.log("ACCOUNTS", res);
           setAccounts(res);
-
         })
 
         const provider = new ethers.providers.JsonRpcProvider(alchemy_url);
-        console.log("INIT PROVIDER", provider);
         setProvider(provider);
 
         /*
@@ -56,7 +51,7 @@ const App = () => {
         */
 
         chrome.storage.sync.get("isInitialized?", function(res: any) {
-          console.log("HELLLLOW WORLD", res)
+
           if (Object(res).keys.includes("isInitialized?")) {
               if (res["isInitialized?"] == true) {
                 setIsLocked(false);
@@ -65,6 +60,8 @@ const App = () => {
               }
           }
         })
+
+        setIsLoadingUser(false);
       }
 
       mountData();
@@ -78,16 +75,15 @@ const App = () => {
         chrome,
         accounts,
         setAccounts,
-        isLoggedIn,
-        setIsLoggedIn,
         currentAccount,
         setCurrentAccount,
         isLocked,
         setIsLocked,
         provider,
-        wallet,
         networkStats,
-        etherBalance
+        etherBalance,
+        setEtherBalance,
+        isLoadingUser
       }}>
         <BaseContainer/>
     <Box
@@ -97,7 +93,6 @@ const App = () => {
       borderRadius="20px"
     >
       <TopHeading/>
-      {console.log("ISLOCKED", isLocked)}
       <AccountPanel/>
       <PortfolioForecast/>
       <TransactionPanel/>

@@ -26,7 +26,7 @@ type AccountModalProps = {
 const AccountSettingsModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
 
     const { currentAccount, accounts }: any = useContext(WalletContext);
-
+    const [ isViewingKey, setIsViewingKey ]: any = useState(false);
 
     return (
         <Modal
@@ -44,14 +44,26 @@ const AccountSettingsModal = ({isOpen, onOpen, onClose} : AccountModalProps) => 
                 border="1px solid black"
             >
                 <ModalBody>
-                    <Box py="10px">
-                        <Box textAlign="right" onClick={() => onClose()} px="10px" pt="10px">
-                            <AiFillCloseCircle size="40px"/>
+
+                    {isViewingKey ?
+                        <Box>
+                            <Box textAlign="right" onClick={() => setIsViewingKey(false)} px="10px" pt="10px">
+                                <AiFillCloseCircle size="40px"/>
+                            </Box>                               
+                            <Box>
+                                {accounts[currentAccount]._privateKey}
+                            </Box>
                         </Box>
-                        <Box border="1px solid black" >
-                            <Text>View Private Key</Text>
-                        </Box> 
-                    </Box>
+                        : // Refactor when adding more options
+                        <Box py="10px">
+                            <Box textAlign="right" onClick={() => onClose()} px="10px" pt="10px">
+                                <AiFillCloseCircle size="40px"/>
+                            </Box>
+                            <Box border="1px solid black" onClick={() => setIsViewingKey(true)}>
+                                <Text>View Private Key</Text>
+                            </Box> 
+                        </Box>
+                    }
                 </ModalBody>
             </ModalContent>
         </Modal>
