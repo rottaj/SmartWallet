@@ -25,22 +25,22 @@ const LoginPage = () => {
     const handleClick = () => setShow(!show);
 
     return (
-        <Box minH="100vh" h="100%" bgColor="#141114" textAlign="center" pt="40px">
+        <Box minH="100vh" h="100%" bgColor="black" textAlign="center" pt="40px">
             <Heading color="white" fontSize="30px">Login to Smart Wallet</Heading>
             <form onSubmit={handleLogin}>
-            <InputGroup size='md'>
+            <InputGroup size='md' color="white">
                 <Input
                     pr='4.5rem'
                     type={show ? 'text' : 'password'}
                     placeholder='Enter password'
             />
                 <InputRightElement width='4.5rem'>
-                    <Button h='1.75rem' size='sm' onClick={handleClick}>
+                    <Button color="white" h='1.75rem' size='sm' onClick={handleClick}>
                     {show ? 'Hide' : 'Show'}
                 </Button>
                 </InputRightElement>
             </InputGroup>
-            <Button type="submit">
+            <Button type="submit" color="white">
                 Login
             </Button>
             </form>
