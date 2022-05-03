@@ -55,16 +55,19 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
 
     const handleAccountChange = async (account: any) => {
         console.log("TESTING CHANGE", accounts[account]._privateKey)
-        setCurrentAccount(account);
         const wallet = new ethers.Wallet(accounts[account]._privateKey, provider);
         console.log("TESTING WALLET CHANGE", wallet)
         const balance = await getEthereumBalance(accounts[account].address)
+
+        setCurrentAccount(account);
         setWallet(wallet)
         setEtherBalance(balance)
 
     }
 
      return (
+        <>
+        {currentAccount &&
         <Modal
             isOpen={isOpen}
             onClose={onClose}
@@ -81,11 +84,7 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
             >
                 <ModalBody>
                     {/*console.log("PRIVATE KEY", accounts[currentAccount]._privateKey)*/}
-                    {currentAccount &&
-                        <>
-                        {console.log("CURRENT ACCOUNT", currentAccount, "KEYS", Object.getOwnPropertyNames(accounts[currentAccount]))}
-                        </>
-                    }
+                    {console.log("CURRENT ACCOUNT", currentAccount, "KEYS", Object.getOwnPropertyNames(accounts[currentAccount]))}
                     {!isCreating ? 
                         <Box>
                             <HStack spacing="200px">
@@ -161,6 +160,8 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
                 </ModalBody>
             </ModalContent>
         </Modal>
+        }
+        </>
     )
 }
 

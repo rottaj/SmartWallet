@@ -14,6 +14,7 @@ import { ethers } from "ethers";
 import { getNetworkStats } from "./utils/HandleNetworkStats";
 import TransactionHistory from "./Components/TransactionHistory";
 import BaseContainer from "./Containers/BaseContainer";
+import { storeCurrentAccount } from "./utils/chrome/StoreCurrentAccount";
 
 const alchemy_url: any = process.env.REACT_APP_ALCHEMY_RPC;
 
@@ -36,7 +37,15 @@ const App = () => {
         setNetworkStats(networkStat);
 
         chrome.storage.sync.get(null, function(res: any) {
-          setAccounts(res);
+          var storage: any = res;
+          if (storage['isInitialized']) {
+            delete storage['isInitialized'] 
+            console.log(storage)
+            setAccounts(storage);
+            storeCurrentAccount(Object.keys(storage)[0])
+            setCurrentAccount(Object.keys(storage)[0])
+          }
+
         })
 
         const provider = new ethers.providers.JsonRpcProvider(alchemy_url);

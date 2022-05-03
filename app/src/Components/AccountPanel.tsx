@@ -1,11 +1,12 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
     Box,
     Flex,
     HStack,
     Text,
     Heading,
-    useDisclosure
+    useDisclosure,
+    Tooltip
 } from "@chakra-ui/react"
 import AccountSettingsModal from './Modals/AccountSettingsModal';
 import { generateQRCode } from '../utils/GenerateQrCode';
@@ -15,6 +16,7 @@ import { getEthereumBalance } from '../utils/HandleUserTokens';
 
 const AccountPanel = () => {
 
+    const { isCopied, setIsCopied }: any = useState(false);
     const { accounts, currentAccount, etherBalance, setEtherBalance, networkStats }: any = useContext(WalletContext)
     const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -28,31 +30,45 @@ const AccountPanel = () => {
     }, [currentAccount])
 
     return (
+        <>
+        {currentAccount &&
         <Box
             mx="5px"
             mt="50px"
             mb="10px"
             borderBottom="2px solid black"
         >
+
+            {console.log("CURRRRRRRENTTT ACC", currentAccount)}
             <AccountSettingsModal isOpen={isOpen} onOpen={onOpen} onClose={onClose}/>
             <HStack
                 spacing="100px"
+                py="3px"
             >
                 <Box>
                     Connected
                 </Box>
-                <Box>
+                <Box px="3px">
                     {console.log("CURRENT ACCOUNT: ", currentAccount)}
                     {currentAccount !== undefined ?
-                        <Box>
-                            <Text>{currentAccount}</Text>
-                            <Flex>
-                                <Text>{accounts[currentAccount].address.substr(0, 8)}...</Text>
-                                <Box margin='0' pt="5px">
-                                    <FiCopy/>
-                                </Box>
-                            </Flex>
-                        </Box>
+                        <Tooltip label={isCopied == false  && isCopied != undefined? "Copy Address to Clipboard" : "Copied!" }>
+                            {console.log("IS COPIED ", isCopied)}
+                            <Box 
+                                onClick={() => {navigator.clipboard.writeText(accounts[currentAccount].address); setIsCopied(true)}}
+                                _hover={{
+                                    background: 'lightgrey'
+                                }}
+                                borderRadius="20px"
+                            >
+                                <Text>{currentAccount}</Text>
+                                <Flex>
+                                    <Text>{accounts[currentAccount].address.substr(0, 8)}...</Text>
+                                    <Box margin='0' pt="5px">
+                                        <FiCopy/>
+                                    </Box>
+                                </Flex>
+                            </Box>
+                        </Tooltip>
                     :
                         <Text>Loading</Text>
                     } 
@@ -96,6 +112,8 @@ const AccountPanel = () => {
                 </Box>
             </HStack>
         </Box>
+        }
+        </>
     )
 }
 
