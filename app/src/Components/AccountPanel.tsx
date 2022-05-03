@@ -22,6 +22,7 @@ const AccountPanel = () => {
 
     useEffect(() => {
         const mountData = async () => {
+            console.log("TESTING ACCOUNTS", accounts, currentAccount)
             const ethBalance = await getEthereumBalance(accounts[currentAccount].address)
             setEtherBalance(ethBalance);
             //const data = await generateQRCode(accounts[currentAccount].address);
@@ -52,9 +53,8 @@ const AccountPanel = () => {
                     {console.log("CURRENT ACCOUNT: ", currentAccount)}
                     {currentAccount !== undefined ?
                         <Tooltip label={isCopied == false  && isCopied != undefined? "Copy Address to Clipboard" : "Copied!" }>
-                            {console.log("IS COPIED ", isCopied)}
                             <Box 
-                                onClick={() => {navigator.clipboard.writeText(accounts[currentAccount].address); setIsCopied(true)}}
+                                //onClick={() => {navigator.clipboard.writeText(accounts[currentAccount].address); setIsCopied(true)}}
                                 _hover={{
                                     background: 'lightgrey'
                                 }}

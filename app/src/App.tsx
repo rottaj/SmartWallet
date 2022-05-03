@@ -36,16 +36,16 @@ const App = () => {
         const networkStat = await getNetworkStats();
         setNetworkStats(networkStat);
 
-        chrome.storage.sync.get(null, function(res: any) {
+        chrome.storage.sync.get(null, function(res: any) { // setAccounts if wallet is initialized ( make this better )
           var storage: any = res;
-          if (storage['isInitialized']) {
-            delete storage['isInitialized'] 
+          if (storage['isInitialized?']) {
+            delete storage['isInitialized?'] 
+            delete storage['currentUser']
             console.log(storage)
             setAccounts(storage);
             storeCurrentAccount(Object.keys(storage)[0])
             setCurrentAccount(Object.keys(storage)[0])
           }
-
         })
 
         const provider = new ethers.providers.JsonRpcProvider(alchemy_url);
@@ -59,7 +59,7 @@ const App = () => {
         setWallet(wallet)
         */
 
-        chrome.storage.sync.get("isInitialized?", function(res: any) {
+        chrome.storage.sync.get(null, function(res: any) {
 
           if (Object(res).keys.includes("isInitialized?")) {
               if (res["isInitialized?"] == true) {
