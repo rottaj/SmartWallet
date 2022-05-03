@@ -32,22 +32,26 @@ const TransactionHistory = () => {
     }, [currentAccount])
 
     return (
-        <Box
-            pt="30px"
-            px="5px"
-        >
-            {recentTxns && 
-                <>
-                {recentTxns.map((txn: any) => {
-                    return (
-                        <>
-                        <Transaction txn={txn}/>
-                        </>
-                    )
-                })}
-                </>
-            }
-        </Box>
+        <>
+        {currentAccount && 
+            <Box
+                pt="30px"
+                px="5px"
+            >
+                {recentTxns && 
+                    <>
+                    {recentTxns.map((txn: any) => {
+                        return (
+                            <>
+                            <Transaction txn={txn}/>
+                            </>
+                        )
+                    })}
+                    </>
+                }
+            </Box>
+        }
+        </>
     )
 }
 

@@ -30,12 +30,16 @@ const AccountPanel = () => {
     }, [currentAccount])
 
     return (
+        <>
+        {currentAccount &&
         <Box
             mx="5px"
             mt="50px"
             mb="10px"
             borderBottom="2px solid black"
         >
+
+            {console.log("CURRRRRRRENTTT ACC", currentAccount)}
             <AccountSettingsModal isOpen={isOpen} onOpen={onOpen} onClose={onClose}/>
             <HStack
                 spacing="100px"
@@ -47,7 +51,8 @@ const AccountPanel = () => {
                 <Box px="3px">
                     {console.log("CURRENT ACCOUNT: ", currentAccount)}
                     {currentAccount !== undefined ?
-                        <Tooltip label={isCopied == false ? "Copy Address to Clipboard" : "Copied!" }>
+                        <Tooltip label={isCopied == false  && isCopied != undefined? "Copy Address to Clipboard" : "Copied!" }>
+                            {console.log("IS COPIED ", isCopied)}
                             <Box 
                                 onClick={() => {navigator.clipboard.writeText(accounts[currentAccount].address); setIsCopied(true)}}
                                 _hover={{
@@ -107,6 +112,8 @@ const AccountPanel = () => {
                 </Box>
             </HStack>
         </Box>
+        }
+        </>
     )
 }
 
