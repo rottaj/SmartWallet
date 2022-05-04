@@ -15,6 +15,7 @@ const BaseContainer = () => {
 
     return (
        <>
+       {console.log("Base container", "isLoadingUser: ", isLoadingUser, "isLocked: ", isLocked)}
         {isLoadingUser ?
             <Center>
                 <Spinner/>

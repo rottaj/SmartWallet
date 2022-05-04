@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react"
 import { WalletContext } from '../contexts';
 import sha256 from 'crypto-js/sha256';
+import { storeCurrentAccount } from '../utils/chrome/StoreCurrentAccount';
 
 const alchemy_url: any = process.env.REACT_APP_ALCHEMY_RPC;
 const priv_key: any = process.env.REACT_APP_PRIV_KEY;
@@ -45,11 +46,13 @@ const InitializeWallet = () => {
         chrome.storage.sync.set({"Account 1": wallet}, function() {
             console.log("ACCOUNT CREATED", 'Account 1', Object.getOwnPropertyNames(wallet))
         })
+
+
         
-        
-        chrome.storage.sync.set({"isInitialized?": true}, function() {
+        chrome.storage.sync.set({"isLocked?": false}, function() {
             console.log("Initialized Wallet")
         })
+        storeCurrentAccount("Account 1");
         setIsLocked(false);
         
     }

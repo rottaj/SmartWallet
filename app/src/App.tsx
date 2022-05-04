@@ -38,14 +38,19 @@ const App = () => {
 
         chrome.storage.sync.get(null, function(res: any) { // setAccounts if wallet is initialized ( make this better )
           var storage: any = res;
-          if (storage['isInitialized?']) {
-            delete storage['isInitialized?'] 
+          if (res["isLocked?"] == false) {
+            delete storage['isLocked?'] 
             delete storage['currentUser']
-            console.log(storage)
+
             setAccounts(storage);
             storeCurrentAccount(Object.keys(storage)[0])
             setCurrentAccount(Object.keys(storage)[0])
+            setIsLocked(false);
+          } else {
+            setIsLocked(true)
           }
+          console.log("STORAGE", storage)
+
         })
 
         const provider = new ethers.providers.JsonRpcProvider(alchemy_url);
@@ -58,17 +63,6 @@ const App = () => {
         console.log("INIT WALLET", wallet)
         setWallet(wallet)
         */
-
-        chrome.storage.sync.get(null, function(res: any) {
-
-          if (Object(res).keys.includes("isInitialized?")) {
-              if (res["isInitialized?"] == true) {
-                setIsLocked(false);
-              } else if (res["isInitialized?"] == false) {
-                setIsLocked(true)
-              }
-          }
-        })
 
         setIsLoadingUser(false);
       }

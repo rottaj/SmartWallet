@@ -16,6 +16,7 @@ import {
 import { AiFillCloseCircle, AiFillLock } from 'react-icons/ai';
 import { WalletContext } from '../../contexts';
 import { getEthereumBalance } from "../../utils/HandleUserTokens";
+import { storeCurrentAccount } from '../../utils/chrome/StoreCurrentAccount';
 
 type AccountModalProps = {
     isOpen: any;
@@ -59,6 +60,7 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
         console.log("TESTING WALLET CHANGE", wallet)
         const balance = await getEthereumBalance(accounts[account].address)
 
+        storeCurrentAccount(account)
         setCurrentAccount(account);
         setWallet(wallet)
         setEtherBalance(balance)
@@ -92,7 +94,7 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
                                     <Box onClick={() => { setIsLocked(true); console.log("CLICKED")} }>
                                         <Text fontSize="15px">Lock</Text>
                                     </Box>
-                                    <Box>
+                                    <Box pl="60px">
                                         <AiFillLock/>
                                     </Box>
                                 </Flex>
