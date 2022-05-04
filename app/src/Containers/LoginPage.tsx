@@ -17,12 +17,17 @@ const LoginPage = () => {
 
     const [ show, setShow ] = useState(false);
 
-    const handleLogin = (password: any) => {
+    const handleLogin = (e: any) => {
+        e.preventDefault();
         chrome.storage.sync.get("passwordhash", function(res: any) {
-            //if ()
+            console.log("RRES", res, e.target[0].value);
+            if (res == e.target[0].value) {
+                console.log("FOOOOOOOOOOOOOOOOOBAR")
+                storeIsLocked(false);
+                setIsLoggedIn(true);
+            }
         })
-        storeIsLocked(false);
-        setIsLoggedIn(true);
+
     }
 
     const handleClick = () => setShow(!show);

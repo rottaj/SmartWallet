@@ -27,25 +27,15 @@ const InitializeWallet = () => {
     const handleSubmit = async (e: any) => {
         e.preventDefault();
         console.log(e)
-        const passwordHash = sha256(e.target[0].value)
-        console.log("INIT HAHS", passwordHash.toString())
-        /*
-        const provider = new ethers.providers.JsonRpcProvider(alchemy_url);
-        console.log("INIT PROVIDER", provider)
-        setProvider(provider);
-
-        const newWallet = ethers.Wallet.createRandom();
-        const wallet = new ethers.Wallet(newWallet.privateKey);
-        //const wallet = await handleWalletConnection(priv_key, provider);
-        console.log("INIT WALLET", wallet)
-        setWallet(wallet)
-        */
+        const passwordHash = sha256(e.target[0].value);
+        console.log("INIT HAHS", passwordHash.toString());
+        chrome.storage.sync.set({"passwordHash": passwordHash});
 
         const newWallet = ethers.Wallet.createRandom();
         const wallet: any = new ethers.Wallet(newWallet.privateKey, provider);
         wallet['_privateKey'] = newWallet.privateKey;
         chrome.storage.sync.set({"Account 1": wallet}, function() {
-            console.log("ACCOUNT CREATED", 'Account 1', Object.getOwnPropertyNames(wallet))
+            console.log("ACCOUNT CREATED", 'Account 1', Object.getOwnPropertyNames(wallet));
         })
 
         storeCurrentAccount("Account 1");
