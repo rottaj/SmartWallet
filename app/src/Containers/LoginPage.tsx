@@ -9,6 +9,7 @@ import {
     Heading
 } from '@chakra-ui/react';
 import { WalletContext } from '../contexts';
+import { storeIsLocked } from '../utils/chrome/StoreIsLocked';
 
 const LoginPage = () => {
 
@@ -20,6 +21,8 @@ const LoginPage = () => {
         chrome.storage.sync.get("passwordhash", function(res: any) {
             //if ()
         })
+        storeIsLocked(false);
+        setIsLoggedIn(true);
     }
 
     const handleClick = () => setShow(!show);

@@ -17,6 +17,7 @@ import { AiFillCloseCircle, AiFillLock } from 'react-icons/ai';
 import { WalletContext } from '../../contexts';
 import { getEthereumBalance } from "../../utils/HandleUserTokens";
 import { storeCurrentAccount } from '../../utils/chrome/StoreCurrentAccount';
+import { storeIsLocked } from '../../utils/chrome/StoreIsLocked';
 
 type AccountModalProps = {
     isOpen: any;
@@ -44,26 +45,26 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
         e.preventDefault();
         const newWallet = ethers.Wallet.createRandom();
         const account: any = new ethers.Wallet(newWallet.privateKey, provider);
-        account['_privateKey'] = newWallet.privateKey
+        account['_privateKey'] = newWallet.privateKey;
         //onClose()
         chrome.storage.sync.set({[`${e.target[0].value}`]: account}, function() {
-            console.log("ACCOUNT CREATED", e.target[0].value, account, Object.getOwnPropertyNames(account))
+            console.log("ACCOUNT CREATED", e.target[0].value, account, Object.getOwnPropertyNames(account));
         })
         chrome.storage.sync.get(e.target[0].value, function(res: any) {
-            console.log("GET ACCOUNT", res._privateKey)
+            console.log("GET ACCOUNT", res._privateKey);
         })
     }
 
     const handleAccountChange = async (account: any) => {
-        console.log("TESTING CHANGE", accounts[account]._privateKey)
+        console.log("TESTING CHANGE", accounts[account]._privateKey);
         const wallet = new ethers.Wallet(accounts[account]._privateKey, provider);
-        console.log("TESTING WALLET CHANGE", wallet)
-        const balance = await getEthereumBalance(accounts[account].address)
+        console.log("TESTING WALLET CHANGE", wallet);
+        const balance = await getEthereumBalance(accounts[account].address);
 
-        storeCurrentAccount(account)
+        storeCurrentAccount(account);
         setCurrentAccount(account);
-        setWallet(wallet)
-        setEtherBalance(balance)
+        setWallet(wallet);
+        setEtherBalance(balance);
 
     }
 
@@ -91,10 +92,10 @@ const AccountModal = ({isOpen, onOpen, onClose} : AccountModalProps) => {
                         <Box>
                             <HStack spacing="200px">
                                 <Flex>
-                                    <Box onClick={() => { setIsLocked(true); console.log("CLICKED")} }>
+                                    <Box onClick={() => { setIsLocked(true); storeIsLocked(true)} }>
                                         <Text fontSize="15px">Lock</Text>
                                     </Box>
-                                    <Box pl="60px">
+                                    <Box pl="120px">
                                         <AiFillLock/>
                                     </Box>
                                 </Flex>
