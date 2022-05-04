@@ -8,6 +8,7 @@ import {
     InputRightElement,
     Heading
 } from '@chakra-ui/react';
+import sha256 from 'crypto-js/sha256';
 import { WalletContext } from '../contexts';
 import { storeIsLocked } from '../utils/chrome/StoreIsLocked';
 
@@ -19,9 +20,9 @@ const LoginPage = () => {
 
     const handleLogin = (e: any) => {
         e.preventDefault();
-        chrome.storage.sync.get("passwordhash", function(res: any) {
-            console.log("RRES", res, e.target[0].value);
-            if (res == e.target[0].value) {
+        chrome.storage.sync.get("passwordHash", function(res: any) {
+            console.log("RRES", res, sha256(e.target[0].value).toString());
+            if (res.passwordHash == sha256(e.target[0].value).toString()) {
                 console.log("FOOOOOOOOOOOOOOOOOBAR")
                 storeIsLocked(false);
                 setIsLoggedIn(true);
@@ -33,7 +34,7 @@ const LoginPage = () => {
     const handleClick = () => setShow(!show);
 
     return (
-        <Box minH="100vh" h="100%" bgColor="black" textAlign="center" pt="40px">
+        <Box minH="100vh" h="100%" bgColor="black" textAlign="center" pt="40px" position="absolute">
             <Heading color="white" fontSize="30px">Login to Smart Wallet</Heading>
             <form onSubmit={handleLogin}>
             <InputGroup size='md' color="white">

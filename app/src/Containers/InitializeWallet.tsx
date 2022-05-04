@@ -29,7 +29,7 @@ const InitializeWallet = () => {
         console.log(e)
         const passwordHash = sha256(e.target[0].value);
         console.log("INIT HAHS", passwordHash.toString());
-        chrome.storage.sync.set({"passwordHash": passwordHash});
+        chrome.storage.sync.set({"passwordHash": passwordHash.toString()});
 
         const newWallet = ethers.Wallet.createRandom();
         const wallet: any = new ethers.Wallet(newWallet.privateKey, provider);
@@ -45,7 +45,7 @@ const InitializeWallet = () => {
     }
 
     return (
-         <Box minH="100vh" h="100%" bgColor="#141114" textAlign="center" pt="40px">
+         <Box minH="100vh" h="100%" bgColor="#141114" textAlign="center" pt="40px" position="absolute">
             <Heading color="white" fontSize="30px">Create a new Smart Wallet</Heading>
             <form onSubmit={handleSubmit}>
                 <Input placeholder="Choose a Password" px="100px" py="15px" type="password"></Input>

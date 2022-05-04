@@ -22,14 +22,11 @@ const BaseContainer = () => {
             </Center>
             :
             <>
-            {Object.keys(accounts).length > 0 ?
-                <>
-                {isLocked == true && 
-                    <LoginPage/>
-                }
-                </>
-            :
+            {isLocked == true && Object.keys(accounts).length == 0 &&
                 <InitializeWallet/>
+            }
+            {isLocked == true && Object.keys(accounts).length != 0 &&
+                <LoginPage/>
             }
             </>
         }

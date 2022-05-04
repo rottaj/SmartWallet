@@ -38,6 +38,7 @@ const App = () => {
 
         chrome.storage.sync.get(null, function(res: any) { // setAccounts if wallet is initialized ( make this better )
           var storage: any = res;
+          console.log(res['currentAccount']);
           if (res["isLocked?"] == false) {
             setIsLocked(false);
           } else {
@@ -48,7 +49,7 @@ const App = () => {
             delete storage['currentUser'];
             delete storage['passwordHash'];
             setAccounts(storage);
-            setCurrentAccount(Object.keys(storage)[0]);
+            setCurrentAccount(Object.keys(storage)[0]); // need to add res['currentAccount']
           } catch( e ) {}
 
           console.log("STORAGE", storage);
