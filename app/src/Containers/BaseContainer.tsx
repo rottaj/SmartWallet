@@ -15,23 +15,18 @@ const BaseContainer = () => {
 
     return (
        <>
+       {console.log("Base container", "isLoadingUser: ", isLoadingUser, "isLocked: ", isLocked, "Accounts: ", Object.keys(accounts).length)}
         {isLoadingUser ?
             <Center>
                 <Spinner/>
             </Center>
             :
             <>
-            {Object.keys(accounts).length > 1 ?
-                <>
-                {isLocked == true? 
-                    <LoginPage/>
-                    :
-                    <>
-                    </>
-                }
-                </>
-                :
+            {isLocked == true && Object.keys(accounts).length == 0 &&
                 <InitializeWallet/>
+            }
+            {isLocked == true && Object.keys(accounts).length != 0 &&
+                <LoginPage/>
             }
             </>
         }

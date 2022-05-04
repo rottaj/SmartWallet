@@ -36,15 +36,23 @@ const App = () => {
         const networkStat = await getNetworkStats();
         setNetworkStats(networkStat);
 
-        chrome.storage.sync.get(null, function(res: any) {
+        chrome.storage.sync.get(null, function(res: any) { // setAccounts if wallet is initialized ( make this better )
           var storage: any = res;
-          if (storage['isInitialized']) {
-            delete storage['isInitialized'] 
-            console.log(storage)
-            setAccounts(storage);
-            storeCurrentAccount(Object.keys(storage)[0])
-            setCurrentAccount(Object.keys(storage)[0])
+          console.log(res['currentAccount']);
+          if (res["isLocked?"] == false) {
+            setIsLocked(false);
+          } else {
+            setIsLocked(true);
           }
+          try { // will refactor
+            delete storage['isLocked?'];
+            delete storage['currentUser'];
+            delete storage['passwordHash'];
+            setAccounts(storage);
+            setCurrentAccount(Object.keys(storage)[0]); // need to add res['currentAccount']
+          } catch( e ) {}
+
+          console.log("STORAGE", storage);
 
         })
 
@@ -58,17 +66,6 @@ const App = () => {
         console.log("INIT WALLET", wallet)
         setWallet(wallet)
         */
-
-        chrome.storage.sync.get("isInitialized?", function(res: any) {
-
-          if (Object(res).keys.includes("isInitialized?")) {
-              if (res["isInitialized?"] == true) {
-                setIsLocked(false);
-              } else if (res["isInitialized?"] == false) {
-                setIsLocked(true)
-              }
-          }
-        })
 
         setIsLoadingUser(false);
       }

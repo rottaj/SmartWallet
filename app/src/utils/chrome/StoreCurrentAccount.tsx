@@ -1,6 +1,6 @@
 declare let chrome: any;
-export const storeCurrentAccount = (currentUser: any) => {
-    chrome.storage.sync.set({"currentUser": currentUser}, function() {
-        console.log("Initialized Wallet")
+export const storeCurrentAccount = (currentAccount: any) => {
+    chrome.storage.sync.set({"currentAccount": currentAccount}, function() {
+        console.log("Initialized Wallet");
     })
 }
