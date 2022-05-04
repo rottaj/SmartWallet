@@ -20,6 +20,7 @@ const alchemy_url: any = process.env.REACT_APP_ALCHEMY_RPC;
 
 declare let chrome: any;
 const App = () => {
+
     const [ isLoadingUser, setIsLoadingUser ]: any = useState();
     const [ isLoadingEtherBalance, setIsLoadingEtherBalance ]: any = useState()
     const [ provider, setProvider ]: any = useState();
@@ -28,6 +29,8 @@ const App = () => {
     const [ networkStats, setNetworkStats ]: any = useState({});
     const [ etherBalance, setEtherBalance ]: any = useState();
     const [ isLocked, setIsLocked]: any = useState();
+
+
     useEffect(() => { // refactor when adding chrome.storage
 
       const mountData = async () => {
@@ -58,15 +61,6 @@ const App = () => {
 
         const provider = new ethers.providers.JsonRpcProvider(alchemy_url);
         setProvider(provider);
-
-        /*
-        const newWallet = ethers.Wallet.createRandom();
-        const wallet = new ethers.Wallet(newWallet.privateKey);
-        //const wallet = await handleWalletConnection(priv_key, provider);
-        console.log("INIT WALLET", wallet)
-        setWallet(wallet)
-        */
-
         setIsLoadingUser(false);
       }
 
