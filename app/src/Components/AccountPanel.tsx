@@ -16,13 +16,12 @@ import { getEthereumBalance } from '../utils/HandleUserTokens';
 
 const AccountPanel = () => {
 
-    const { isCopied, setIsCopied }: any = useState(false);
+    const [ isCopied, setIsCopied ]: any = useState(false);
     const { accounts, currentAccount, etherBalance, setEtherBalance, networkStats }: any = useContext(WalletContext)
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     useEffect(() => {
         const mountData = async () => {
-            console.log("TESTING ACCOUNTS", accounts, currentAccount)
             const ethBalance = await getEthereumBalance(accounts[currentAccount].address)
             setEtherBalance(ethBalance);
             //const data = await generateQRCode(accounts[currentAccount].address);
@@ -32,6 +31,7 @@ const AccountPanel = () => {
 
     return (
         <>
+        {console.log("IS COPIED", isCopied)}
         {currentAccount &&
         <Box
             mx="5px"
@@ -40,7 +40,6 @@ const AccountPanel = () => {
             borderBottom="2px solid black"
         >
 
-            {console.log("CURRRRRRRENTTT ACC", currentAccount)}
             <AccountSettingsModal isOpen={isOpen} onOpen={onOpen} onClose={onClose}/>
             <HStack
                 spacing="100px"
@@ -50,11 +49,10 @@ const AccountPanel = () => {
                     Connected
                 </Box>
                 <Box px="3px">
-                    {console.log("CURRENT ACCOUNT: ", currentAccount)}
                     {currentAccount !== undefined ?
-                        <Tooltip label={isCopied == false  && isCopied != undefined? "Copy Address to Clipboard" : "Copied!" }>
+                        <Tooltip label={!isCopied ? "Copy address to clipboard" : "Copied!"}>
                             <Box 
-                                //onClick={() => {navigator.clipboard.writeText(accounts[currentAccount].address); setIsCopied(true)}}
+                                onClick={() => {navigator.clipboard.writeText(accounts[currentAccount].address); setIsCopied(true)}}
                                 _hover={{
                                     background: 'lightgrey'
                                 }}
