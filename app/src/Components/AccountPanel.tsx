@@ -26,7 +26,9 @@ const AccountPanel = () => {
             setEtherBalance(ethBalance);
             //const data = await generateQRCode(accounts[currentAccount].address);
         }
-        mountData();
+        if (accounts) {
+            mountData();
+        }
     }, [currentAccount])
 
     return (

@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 import {
     Box,
     Flex,
+    Link,
     Text,
     Heading,
     HStack,
@@ -20,6 +21,7 @@ import { WalletContext } from '../../contexts';
 import { FaEthereum } from 'react-icons/fa';
 import { BsFillArrowRightCircleFill } from 'react-icons/bs';
 import { AiFillCloseCircle } from 'react-icons/ai';
+import { textSpanContainsPosition } from 'typescript';
 
 type PastTransactionModalProps = {
     txn: any;
@@ -27,9 +29,16 @@ type PastTransactionModalProps = {
     onOpen: any;
     onClose: any;
 }
-
+const ETHERSCAN_URL = 'https://rinkeby.etherscan.io/tx/'
 
 const PastTransactionModal = ({txn, isOpen, onOpen, onClose}: PastTransactionModalProps) => {
+
+    const [ isCopied, setIsCopied ]: any = useState(false);
+
+    const handleRedirect = () => {
+        window.open(ETHERSCAN_URL + txn.hash)
+    }
+
     return (
           <Modal
             isOpen={isOpen}
@@ -46,6 +55,7 @@ const PastTransactionModal = ({txn, isOpen, onOpen, onClose}: PastTransactionMod
                 border="1px solid black"
             >
                 <ModalBody>
+                    {console.log("TXN", txn)}
                     <Box px="10px">
                         <HStack spacing="300px">
                             <Box>
@@ -67,8 +77,8 @@ const PastTransactionModal = ({txn, isOpen, onOpen, onClose}: PastTransactionMod
                                 }
                             </Box>
                             <Box>
-                                <Text color="blue" fontSize="14px">View on block explorer</Text>
-                                <Text color="blue" fontSize="14px">Copy Transaction ID</Text>
+                                <Link color="blue" fontSize="14px" onClick={() => handleRedirect}>View on block explorer</Link>
+                                <Link color="blue" fontSize="14px" onClick={() => {navigator.clipboard.writeText(txn.hash); setIsCopied(true)}} >Copy Transaction ID</Link>
                             </Box>
                         </HStack>
                     </Box>
