@@ -27,6 +27,7 @@ const AccountSettingsModal = ({isOpen, onOpen, onClose} : AccountModalProps) => 
 
     const { currentAccount, accounts }: any = useContext(WalletContext);
     const [ isViewingKey, setIsViewingKey ]: any = useState(false);
+    const [ isAllowed, setIsAllowed ]: any = useState(false);
 
     return (
         <Modal

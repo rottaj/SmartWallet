@@ -77,7 +77,7 @@ const PastTransactionModal = ({txn, isOpen, onOpen, onClose}: PastTransactionMod
                                 }
                             </Box>
                             <Box>
-                                <Link color="blue" fontSize="14px" onClick={() => handleRedirect}>View on block explorer</Link>
+                                <Link color="blue" fontSize="14px" onClick={() => handleRedirect()}>View on block explorer</Link>
                                 <Link color="blue" fontSize="14px" onClick={() => {navigator.clipboard.writeText(txn.hash); setIsCopied(true)}} >Copy Transaction ID</Link>
                             </Box>
                         </HStack>
