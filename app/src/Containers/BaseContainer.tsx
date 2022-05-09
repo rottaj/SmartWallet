@@ -17,9 +17,11 @@ const BaseContainer = () => {
        <>
        {console.log("Base container", "isLoadingUser: ", isLoadingUser, "isLocked: ", isLocked, "Accounts: ", Object.keys(accounts).length)}
         {isLoadingUser ?
-            <Center>
-                <Spinner/>
-            </Center>
+            <Box minH="100vh" h="100%" bgColor="black" textAlign="center" pt="40px" position="absolute">
+                <Center>
+                    <Spinner size="xl"/>
+                </Center>
+            </Box>
             :
             <>
             {isLocked == true && Object.keys(accounts).length == 0 &&
